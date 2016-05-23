@@ -123,7 +123,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
 
             <?php $etiquettes = EtiquetteDAL::findAll(); ?>
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-8">
                     <legend>Liste des Etiquettes précédemment ajoutées</legend>
                     <table class="table table-bordered table-hover table-condensed">
                         <thead>
@@ -150,7 +150,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
 
                 <br><br>
 
-                <div class="panel panel-danger col-lg-6">
+                <div class="panel panel-danger col-lg-4">
                     <div class="panel-heading">
                         <h3 class="panel-title"><b>ATTENTION: Suppression d'Etiquettes</b></h3>
                     </div>
