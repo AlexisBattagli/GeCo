@@ -30,7 +30,7 @@ class BaseSingleton {
             self::$instance = new BaseSingleton();
         }
 
-        self::$instance->mysqli = new mysqli('localhost', 'alexis', 'Lasalasa_0', 'geco_db');
+        self::$instance->mysqli = new mysqli('localhost', 'root', '', 'gecodb');
     }
 
     private function disconnect()
