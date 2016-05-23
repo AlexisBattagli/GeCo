@@ -54,12 +54,12 @@ if ($modPayement->isUnique() != 0)
 {
     echo "[INFO]Ce moyen est bien unique.</br>";
     PayementDAL::insertOnDuplicate($modPayement);
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_payement.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_payement.php' />";
 }
 else
 {
     echo "[DEBUG]Ce moyen existe deja, aucune modification apporte.</br>";
     //Renvoie à la page de gestion des Lieux
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_payement.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_payement.php' />";
 }
 ?>

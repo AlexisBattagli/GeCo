@@ -66,13 +66,13 @@ if ($modLieu->isUnique() != 0)
 {
     echo "[DEBUG]Ce couple Pays/Ville est bien unique.</br>";
     LieuDAL::insertOnDuplicate($modLieu);
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_lieux.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_lieux.php' />";
 }
 else
 {
     echo "[DEBUG]Ce couple Pays/Ville existe deja, aucune modification apporte.</br>";
     //Renvoie à la page de gestion des Lieux
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_lieux.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_lieux.php' />";
 }
 ?>
 

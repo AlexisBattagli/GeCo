@@ -114,7 +114,7 @@ if ($modCompte->isUnique() != 0 || $modif)
 {
     echo "[DEBUG]Ce couple Label/Banque est bien unique.</br>";
     CompteDAL::insertOnDuplicate($modCompte);
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_compte.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_compte.php' />";
 }
 else
 {
@@ -127,5 +127,5 @@ else
         echo "[DEBUG]Aucune modification apportees.</br>";
     }
     //Renvoie à la page de gestion des Lieux
-    echo "<meta http-equiv='refresh' content='1; url=http://geco.ab/view/phtml/gst_compte.php' />";
+    echo "<meta http-equiv='refresh' content='1; url=http://geco/view/phtml/gst_compte.php' />";
 }
