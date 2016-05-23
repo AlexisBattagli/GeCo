@@ -73,7 +73,7 @@ class SoldeDAL {
                         . 'solde.valeur as valeur, '
                         . 'solde.date as date '
                         . ' FROM solde '
-                        . ' WHERE solde.date = (SELECT MAX(solde.date) FROM solde WHERE solde.compte_id = ?)', array('i', &$idCompte));
+                        . ' WHERE solde.date = (SELECT MAX(solde.date) FROM solde WHERE solde.compte_id = ?) AND solde.compte_id = ?', array('ii', &$idCompte, &$idCompte));
         $solde = new Solde();
         if (sizeof($data) > 0)
         {
