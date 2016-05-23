@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <!--
-- Page de modification de Lieux 
+- Page de modification d'une Etiquette 
 - 
 - @author Alexis BATTAGLI
 - @version 0.1
 - 
-- Permet d'afficher un formulaire pour modifier un lieux
-- Doit permettre de donnée un nom de ville, et un nom de pays.
+- Permet d'afficher un formulaire pour modifier une Etiquette
+- Doit permettre de donnée un label, et une description.
 -->
 
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
 ?>
 
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Modification de Lieux</title>
-
+        <title>Modification d'Etiquette</title>
+        
         <link rel="stylesheet" type="text/css" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap-theme.min.css"> 
 
@@ -64,7 +64,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
             }
         </style>
     </head>
-
+    
     <body>
         <div class="container">
             <div class="row">
@@ -86,56 +86,50 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                     </nav>
                 </div>
             </div>
-
+            
             <?php
             //=====Vérification de ce qui est renvoyé par l'URL en GET===/
-            $validId = filter_input(INPUT_GET, 'idLieu', FILTER_SANITIZE_STRING);
+            $validId = filter_input(INPUT_GET, 'idEtiquette', FILTER_SANITIZE_STRING);
             if ($validId != null)
             {
-                //echo "[DEBUG]Validation de l'ID --> OK </br>";
-                //converie l'id envoyer par l'url (string), en id exploitable (int)
                 $validId = (int) $validId;
                 if (is_int($validId))
                 {
-                    //echo "[DEBUG]Cast de l'ID en int --> OK </br>";
-                    //echo "[INFO]valeur d'ID transmise: " . $validId . "</br>";
-                    $lieu = LieuDAL::findById($validId);
-                    if (is_null($lieu))
+                    $etiquette = EtiquetteDAL::findById($validId);
+                    if (is_null($etiquette))
                     {
-                        echo "[DEBUG]Aucun Lieu trouver avec cette ID...</br>";
+                        echo "[DEBUG]Aucune etiquette trouvée avec cet ID...</br>";
                     }
                     else
                     {
-                        //echo "[INFO]Ville: " . $lieu->getVille() . "</br>";
-                        //echo "[INFO]Pays: " . $lieu->getPays() . "</br>";
                         ?>
                         <div class="row">
                             <div class="col-lg-12">
-                                <form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/mod_lieu.php" method="POST">
-                                    <legend>Formulaire de modification d'un Lieu</legend>
+                                <form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/mod_etiquette.php" method="POST">
+                                    <legend>Formulaire de modification d'une Etiquette</legend>
 
-                                    <!-- Nom du Pays du Lieu-->
+                                    <!-- Label de l'Etiquette-->
                                     <div class="col-lg-2">
-                                        <label for="pays" class="control-label">Pays : </label>
-                                        <input type="text" name="pays" class="form-control" id="pays" value="<?php echo $lieu->getPays(); ?>">
+                                        <label for="label" class="control-label">Label : </label>
+                                        <input type="text" name="label" class="form-control" id="label" value="<?php echo $etiquette->getLabel(); ?>">
                                     </div>
 
-                                    <!-- Nom de la Ville du Lieu-->
+                                    <!-- Description de l'Etiquette-->
                                     <div class="col-lg-2">
-                                        <label for="ville" class="control-label">Ville : </label>
-                                        <input type="text" name="ville" class="form-control" id="ville" value="<?php echo $lieu->getVille(); ?>">
+                                        <label for="description" class="control-label">Description : </label>
+                                        <input type="text" name="description" class="form-control" id="description" value="<?php echo $etiquette->getDescription(); ?>">
                                     </div>
 
                                     <!-- Bouton de Validation-->
                                     <div class="col-lg-2">
                                         </br>
-                                        <input type="submit" value="Modifier ce Lieu" class="btn btn-success btn-block"/>
+                                        <input type="submit" value="Modifier cette etiquette" class="btn btn-success btn-block"/>
                                     </div>
 
-                                    <!-- ID du Lieu Caché et modification désactiver-->
+                                    <!-- ID de l'Etiquette Caché et modification désactiver-->
                                     <div class="col-lg-2" hidden>
                                         <label for="id" class="control-label">Id : </label>
-                                        <input type="text" name="id" class="form-control" id="id" value="<?php echo $lieu->getId(); ?>">
+                                        <input type="text" name="id" class="form-control" id="id" value="<?php echo $etiquette->getId(); ?>">
                                     </div>
                                 </form>
 
@@ -159,7 +153,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                 echo "[DEBUG]Aucun ID renseigner dans ce lien... </br>";
                 echo "[DEBUG](valeur transmise: " . $validId . " )";
             }
-            ?>
-        </div>
+            ?>           
+        </div>   
     </body>
 </html>
