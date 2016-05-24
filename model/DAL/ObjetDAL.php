@@ -58,6 +58,30 @@ class ObjetDAL {
     }
     
     /*
+     * Retourne l'Objet correspondant au label passer en paramètre
+     * Ce Label est forcément unique, il est recherche sans tenir compte de la casse
+     * 
+     * @param string label
+     * @return Objet
+     */
+
+    public static function findByLabel($label)
+    {
+        $data = BaseSingleton::select('SELECT objet.id as id, '
+                        . 'objet.label as label, '
+                        . 'objet.description as description '
+                        . ' FROM objet'
+                        . ' WHERE LOWER(objet.label) = LOWER(?)', array('s', &$label));
+        $objet = new Objet();
+
+        if (sizeof($data) > 0)
+        {
+            $objete->hydrate($data[0]);
+        }
+        return $objet;
+    }
+    
+    /*
      * Insère ou met à jour l'objet donnée en paramètre.
      * Pour cela on vérifie si l'id de l'objet transmis est sup ou inf à 0.
      * Si l'id est inf à 0 alors il faut insèrer, sinon update à l'id transmis.
