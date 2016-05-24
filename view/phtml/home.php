@@ -85,21 +85,6 @@
                                     <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/info_gen.php" class="btn btn-default btn-sm" target="_blank">Informations Générales</a></li>
                                     <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/liens_utiles.php" class="btn btn-default btn-sm" target="_blank">Liens utiles</a></li>
                                 </ul>
-                                <!-- Outil de gestion des donnée d'info placer dans la bar de nav et pas juste sur home (pres2)-->
-                                <!--<div class="row">
-                                    <div class="col-lg-12"> 
-                                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse"></button>
-                                        <span class="navbar-brand">Gestion des données d'informations</span>
-                                        <ul class="nav navbar-nav">
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_lieux.php" class="btn btn-default btn-sm" target="_blank">Lieux</a></li>
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_compte.php" class="btn btn-default btn-sm" target="_blank">Comptes</a></li>
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_objet.php" class="btn btn-default btn-sm" target="_blank">Objets</a></li>
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_budget.php" class="btn btn-default btn-sm" target="_blank">Budget</a></li>
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_payement.php" class="btn btn-default btn-sm" target="_blank">Moyen de payement</a></li>
-                                            <li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_etiquette.php" class="btn btn-default btn-sm" target="_blank">Etiquette</a></li>
-                                        </ul>
-                                    </div>
-                                </div>-->
                             </div>
                         </div>
                     </nav>
@@ -119,13 +104,13 @@
                     <div class="col-lg-3">
                         <a href="./gst_compte.php" class="list-group-item">
                             <h4 class="list-group-item-heading">Compte</h4>
-                            <p class="list-group-item-text">Ajouter, modifier ou supprimer <b>un Compte</b> associables à un Flux d'argent.</p>
+                            <p class="list-group-item-text">Ajouter, modifier <b>un Compte</b> associables à un Flux d'argent.</p>
                         </a>
                     </div>     
                     <div class="col-lg-3">
                         <a href="./gst_objet.php" class="list-group-item">
                             <h4 class="list-group-item-heading">Objet</h4>
-                            <p class="list-group-item-text">Ajouter, modifier ou supprimer <b>un Objet</b> et <b>ses Sous-Objets</b> associables à un Flux d'argent.</p>
+                            <p class="list-group-item-text">Ajouter, modifier <b>un Objet</b> associable à un Flux d'argent.</p>
                         </a>
                     </div>     
                     <div class="col-lg-3">
@@ -146,6 +131,12 @@
                         <a href="./gst_etiquette.php" class="list-group-item">
                             <h4 class="list-group-item-heading">Etiquette</h4>
                             <p class="list-group-item-text">Ajouter, modifier ou supprimer <b>une Etiquette</b> associables à un Flux d'argent.</p>
+                        </a>
+                    </div>
+                    <div class="col-lg-3 ">
+                        <a href="./gst_sousobjet.php" class="list-group-item">
+                            <h4 class="list-group-item-heading">Sous-Objet</h4>
+                            <p class="list-group-item-text">Ajouter, modifier ou supprimer <b>un Sous-Objet</b> associables à un <b>Objet</b>.</p>
                         </a>
                     </div>
                 </div>
