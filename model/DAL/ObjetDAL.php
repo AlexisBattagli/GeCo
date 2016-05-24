@@ -12,6 +12,7 @@
  */
 
 require_once('BaseSingleton.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
 
 class ObjetDAL {
 
