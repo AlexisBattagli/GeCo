@@ -62,7 +62,8 @@ else
 }
 
 //====Vérification de doublons d'Etiquette selon le label====
-if ($modEtiquette->isUnique() != 0)
+// OU que le Label est inchangé
+if ($modEtiquette->isUnique() != 0 || $modEtiquette->getLabel() == EtiquetteDAL::findById($validId)->getLabel())
 {
     echo "[DEBUG]Ce label est bien unique.</br>";
     EtiquetteDAL::insertOnDuplicate($modEtiquette);
