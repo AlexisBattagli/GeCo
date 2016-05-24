@@ -77,7 +77,7 @@ class ObjetDAL {
 
         if (sizeof($data) > 0)
         {
-            $objete->hydrate($data[0]);
+            $objet->hydrate($data[0]);
         }
         return $objet;
     }
