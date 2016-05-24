@@ -58,7 +58,6 @@
             blockquote {
                 background-color:#fffeee;
                 border-radius: 12px;
-                //box-shadow: 3px 3px 6px #8c8c8c;
                 border: 2px #eee dotted; 
             }
 
