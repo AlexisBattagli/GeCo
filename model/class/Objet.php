@@ -76,6 +76,27 @@ class Objet {
         $this->description = $dataSet['description'];
     }
  
+    /*
+     * Méthode vérifiant à partir du label
+     * qu'un objet n'existe pas déjà en base
+     * 
+     * Retourne 0 si le label existe déjà, sinon 1
+     * 
+     * @return int
+     */
+    public function isUnique()
+    {
+        $result=0; //par défaut on considère qu'il existe déjà
+        $label = $this->getLabel();
+        
+        $objet = ObjetDAL::findByLabel($label);
+        if($objet->getId()==-1) //s'il y a un id par défaut retourner
+        {
+            $result=1; //alors c'est qu'il existe pas
+        }
+        return $result;
+    }
+    
 /* 
    ==============================
    ======= GETTER/SETTER ========
