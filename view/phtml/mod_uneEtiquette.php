@@ -115,25 +115,25 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
                                     </div>
 
                                     <!-- Description de l'Etiquette-->
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-4">
                                         <label for="description" class="control-label">Description : </label>
                                         <input type="text" name="description" class="form-control" id="description" value="<?php echo $etiquette->getDescription(); ?>">
                                     </div>
 
                                     <!-- Bouton de Validation-->
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         </br>
                                         <input type="submit" value="Modifier cette etiquette" class="btn btn-success btn-block"/>
                                     </div>
 
                                     <!-- ID de l'Etiquette Caché et modification désactiver-->
-                                    <div class="col-lg-2" hidden>
+                                    <div class="col-lg-1" hidden>
                                         <label for="id" class="control-label">Id : </label>
                                         <input type="text" name="id" class="form-control" id="id" value="<?php echo $etiquette->getId(); ?>">
                                     </div>
                                 </form>
 
-                                <div class="col-lg-1">
+                                <div class="col-lg-2">
                                     </br>
                                     <a href="<?php echo $_SERVER["HTTP_REFERER"]; ?>" class="btn btn-danger btn-block">Annuler</a>
                                 </div>
