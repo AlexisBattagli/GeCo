@@ -69,7 +69,7 @@ class Objet {
      * pour accèder à la valeur contenue dans la colonne nommé attribut_1 il faut indiquer
      * dataSet['attribut_1']
      */
-    protected function hydrate($dataSet)
+    public function hydrate($dataSet)
     {
         $this->id = $dataSet['id'];
         $this->label = $dataSet['label'];
