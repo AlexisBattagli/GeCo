@@ -95,31 +95,31 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
 
                         <!-- Label/Nom du compte-->
                         <div class="col-lg-2">
-                            <label for="label" class="control-label">Label : </label>
+                            <label for="label" class="control-label">Label: </label>
                             <input type="text" name="label" class="form-control" id="label" placeholder="Ex: LIVRET_A" required="required">
                         </div>
 
                         <!-- Nom de la banque associé à ce compte-->
                         <div class="col-lg-2">
-                            <label for="banque" class="control-label">Banque : </label>
+                            <label for="banque" class="control-label">Banque: </label>
                             <input type="text" name="banque" class="form-control" id="banque" placeholder="Ex: Caisse d'Epargne" required="required">
                         </div>
 
                         <!-- Informations relatives au compte-->
                         <div class="col-lg-4">
-                            <label for="information" class="control-label">Informations : </label>
+                            <label for="information" class="control-label">Informations: </label>
                             <input type="text" name="information" class="form-control" id="information" placeholder="Ex: Compte principale de la réserve d'argent" required="required">
                         </div>
 
                         <!-- Numéro de compte-->
                         <div class="col-lg-2">
-                            <label for="identifiant" class="control-label">Numero de Compte : </label>
+                            <label for="identifiant" class="control-label">Numero de Compte: </label>
                             <input type="text" name="identifiant" class="form-control" id="identifiant" placeholder="Ex: 495128972350" required="required">
                         </div>
 
                         <!-- Solde de départ du compte au jour de l'ajout en base-->
                         <div class="col-lg-2">
-                            <label for="solde" class="control-label">Solde (€) : </label>
+                            <label for="solde" class="control-label">Solde (€): </label>
                             <input type="number" value="0" name="solde" min="-1000.00" step="0.01" class="form-control" id="solde" required="required" title="Solde de départ du compte au jour de création (par défaut 0)">
                         </div>
 
@@ -130,7 +130,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                         </div>
                     </form>
 
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         </br>
                         <a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
                     </div>
