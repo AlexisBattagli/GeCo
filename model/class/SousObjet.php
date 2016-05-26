@@ -92,6 +92,28 @@ class SousObjet {
         $this->description = $dataSet['description'];
     } 
     
+    /*
+     * Méthode vérifiant à partir du label et de l'objet
+     * qu'un sous-objet n'existe pas déjà en base
+     * 
+     * Retourne 0 si le couple(label, id_objet) existe déjà, sinon 1
+     * 
+     * @return int
+     */
+    public function isUnique()
+    {
+        $result=0; //par défaut on considère qu'il existe déjà
+        $label = $this->getLabel();
+        $objet = $this->getObjet();
+        
+        $sousobjet = SousObjetDAL::findByLO($label,$objet);
+        if($sousobjet->getId()==-1) //s'il y a un id par défaut retourner
+        {
+            $result=1; //alors c'est qu'il existe pas
+        }
+        return $result;
+    }
+    
 /* 
    ==============================
    ======= GETTER/SETTER ========
