@@ -65,7 +65,6 @@ class ObjetDAL {
      * @param string label
      * @return Objet
      */
-
     public static function findByLabel($label)
     {
         $data = BaseSingleton::select('SELECT objet.id as id, '
@@ -73,6 +72,28 @@ class ObjetDAL {
                         . 'objet.description as description '
                         . ' FROM objet'
                         . ' WHERE LOWER(objet.label) = LOWER(?)', array('s', &$label));
+        $objet = new Objet();
+
+        if (sizeof($data) > 0)
+        {
+            $objet->hydrate($data[0]);
+        }
+        return $objet;
+    }
+    
+    /*
+     * Return l'Objet par défaut d'ID 1
+     * 
+     * @return Objet
+     */
+    public static function findDefaultObjet()
+    {
+        $defaultId = 1;
+        $data = BaseSingleton::select('SELECT objet.id as id, '
+                        . 'objet.label as label, '
+                        . 'objet.description as description '
+                        . ' FROM objet'
+                        . ' WHERE objet.id = ?', array('i', &$defaultId));
         $objet = new Objet();
 
         if (sizeof($data) > 0)

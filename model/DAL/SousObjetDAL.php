@@ -60,6 +60,32 @@ class SousObjetDAL {
     }
     
     /*
+     * Retourne le Sous-Objet correspondant au label et objet passer en paramètre
+     * Ce Label est forcément unique, il est recherche sans tenir compte de la casse
+     * 
+     * @param string label
+     * @return Objet
+     */
+
+    public static function findByLO($label, $objet)
+    {
+        $objetId = $objet->getId();
+        $data = BaseSingleton::select('SELECT sous_objet.id as id, '
+                        . 'sous_objet.objet_id as objet_id, '
+                        . 'sous_objet.label as label, '
+                        . 'sous_objet.description as description '
+                        . ' FROM sous_objet'
+                        . ' WHERE LOWER(sous_objet.label) = LOWER(?) AND sous_objet.objet_id = ?', array('si', &$label, &$objetId));
+        $sousobjet = new SousObjet();
+
+        if (sizeof($data) > 0)
+        {
+            $sousobjet->hydrate($data[0]);
+        }
+        return $sousobjet;
+    }
+    
+    /*
      * Insère ou met à jour le sous objet donné en paramètre.
      * 
      * @param SousObjet sousObjet

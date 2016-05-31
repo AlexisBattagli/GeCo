@@ -70,7 +70,7 @@ if ($newSousObjet->isUnique() != 0)
 }
 else
 {
-    echo "Erreur, le Sous-Objet ".$newSousObjet->getLabel()."pour l'Objet ".$newSousObjet->getObjet()->getLabel()." que vous voulez ajouter existe déjà...";
+    echo "Erreur, le Sous-Objet ".$newSousObjet->getLabel()." pour l'Objet ".$newSousObjet->getObjet()->getLabel()." que vous voulez ajouter existe déjà...";
 }
 
 ?>

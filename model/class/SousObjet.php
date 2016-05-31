@@ -14,6 +14,8 @@
  * 
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
+
 class SousObjet {
     
 /* 
