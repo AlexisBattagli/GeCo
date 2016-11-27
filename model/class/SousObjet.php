@@ -15,6 +15,7 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 
 class SousObjet {
     
@@ -118,6 +119,21 @@ class SousObjet {
         return $result;
     }
     
+    /*
+     * Regarde si le sous-objet est lié à des es
+     * s'il l'est alors il n'est pas deletable, sinon il est deletable
+     */
+    public function isDeletable(){
+    	$deletable = 0; //Par défaut le sous-objet n'est pas deletable
+    	
+    	$id = $this->getId();
+    	$esLiees = EntreeSortieDAL::findBySousObjet($id);
+    	
+    	if(sizeof($esLiees)==0){
+    		$deletable = 1;
+    	}
+    	return $deletable;
+    }
     
     /*
      * Méthode permettant d'affichier les valeur de chaque attribut du sous-objet
