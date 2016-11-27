@@ -104,15 +104,21 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        
+                </div>
+             </div>
+            
+             <br>
+             
+             <div class="row">
+                <div class="col-lg-12">
                         <!-- Label du Sous-Objet-->
-                        <div class="col-lg-2">
+                        <div class="col-lg-3">
                             <label for="label" class="control-label">Label* : </label>
                             <input type="text" maxlength="30" name="label" class="form-control" id="label" placeholder="Ex: Clio 2" required="required">
                         </div>
 
                         <!-- Description du Sous-Objet-->
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                             <label for="description" class="control-label">Description : </label>
                             <input type="text" maxlength="150" name="description" class="form-control" id="description" placeholder="Ex: Sous-Objet de l'Objet Voiture">
                         </div>
@@ -124,7 +130,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                         </div>
                     </form>
 
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         </br>
                         <a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
                     </div>

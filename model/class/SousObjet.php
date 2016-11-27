@@ -66,6 +66,7 @@ class SousObjet {
         {
             $this->objet = $objet;
         }
+        $this->id = $id;
         $this->label = $label;
         $this->description = $description;
     }
@@ -109,11 +110,25 @@ class SousObjet {
         $objet = $this->getObjet();
         
         $sousobjet = SousObjetDAL::findByLO($label,$objet);
+        echo "[DEBUG] L'id du sous-objet est :".$sousobjet->getId()."</br>"; //TODO delete this debug msg
+        
         if($sousobjet->getId()==-1) //s'il y a un id par défaut retourner
         {
             $result=1; //alors c'est qu'il existe pas
         }
         return $result;
+    }
+    
+    
+    /*
+     * Méthode permettant d'affichier les valeur de chaque attribut du sous-objet
+     * Utile pour le debug
+     */
+    public function toString(){
+    	echo "Caractéristique du sous-objet d'id ".$this->getId()."</br>"
+    			. "label : ". $this->getLabel()."</br>"
+    			. "description : ". $this->getDescription()."</br>"
+    			. "Id de l'objet lié : ". $this->getObjet()->getId()."</br>";
     }
     
 /* 

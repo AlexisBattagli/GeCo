@@ -35,12 +35,12 @@ if ($validId != null)
     $validId = (int) $validId;
     if (is_int($validId))
     {
-        echo "[DEBUG]L'ID a bien ete caste en int --> OK</br>";
+        echo "[DEBUG]L'ID de l'objet a bien ete caste en int (". $validId .") --> OK</br>";
         $newSousObjet->setObjet($validId);
     }
     else
     {
-        echo "[DEBUG]Erreur, l'ID n'a pas ete caste en int...</br>";
+        echo "[DEBUG]Erreur, l'ID n'a pas été casté en int...</br>";
     }
 }
 else
