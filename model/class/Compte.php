@@ -14,6 +14,7 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SoldeDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 
 class Compte {
     /*
@@ -118,6 +119,22 @@ class Compte {
             $result=1; //alors c'est qu'il existe pas
         }
         return $result;
+    }
+    
+    /*
+     * Regarde si le compte est lié à des es
+     * s'il l'est alors il n'est pas deletable, sinon il est deletable
+     */
+    public function isDeletable(){
+    	$deletable = 0; //Par défaut le sous-objet n'est pas deletable
+    	 
+    	$id = $this->getId();
+    	$esLiees = EntreeSortieDAL::findByCompte($id);
+    	 
+    	if(sizeof($esLiees)==0){
+    		$deletable = 1;
+    	}
+    	return $deletable;
     }
 
     /*

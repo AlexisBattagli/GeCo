@@ -25,7 +25,7 @@ if ($validId != null)
     {
         echo "[INFO]Cast de l'ID en int --> OK </br>";
         echo "[INFO]valeur d'ID transmise: " . $validId . "</br>";
-        echo "[INFO]Suppression du Lieu en Cours. </br>";
+        echo "[INFO]Suppression du Payement en cours. </br>";
         PayementDAL::delete($validId);
 
         echo "[INFO]Verification du success de la suppression. </br>";

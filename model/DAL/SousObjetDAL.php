@@ -32,8 +32,13 @@ class SousObjetDAL {
                                     . ' FROM sous_objet '
                                     . ' WHERE sous_objet.id = ?', array('i',&$id));
         $sousObjet = new SousObjet();
-        $sousObjet->hydrate($data[0]);
-        return $sousObjet;
+        if (sizeof($data) > 0)
+        {
+        	$sousObjet->hydrate($data[0]);
+        }else {
+        	$sousObjet = null;
+        }
+        	return $sousObjet;
     }
     
    /*

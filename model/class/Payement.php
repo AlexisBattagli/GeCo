@@ -12,6 +12,8 @@
  * Cette classe représente le moyen de payement utilisé pour une ES
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
+
 class Payement {
     /*
       ==============================
@@ -90,6 +92,22 @@ class Payement {
             $result = 1; //alors c'est qu'il existe pas
         }
         return $result;
+    }
+    
+    /*
+     * Regarde si le payement est lié à des es
+     * s'il l'est alors il n'est pas deletable, sinon il est deletable
+     */
+    public function isDeletable(){
+    	$deletable = 0; //Par défaut le payement n'est pas deletable
+    	 
+    	$id = $this->getId();
+    	$esLiees = EntreeSortieDAL::findByPayement($id);
+    	 
+    	if(sizeof($esLiees)==0){
+    		$deletable = 1;
+    	}
+    	return $deletable;
     }
 
     /*

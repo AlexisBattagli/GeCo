@@ -11,6 +11,7 @@
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Compte.php');
 ?>
 
 <html lang="fr">
@@ -152,6 +153,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                                 <th class="text-center">Informations</th>
                                 <th class="text-center">Numéro</th>
                                 <th class="text-center">Modifier</th>
+                                <th class="text-center">Supprimer</th>
                             </tr>
                         </thead>
 
@@ -164,6 +166,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                                     <th class="text-center"><?php echo $compte->getInformation(); ?></th>
                                     <th class="text-center"><?php echo $compte->getIdentifiant(); ?></th>
                                     <th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unCompte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></th>
+                                    <?php if($compte->isDeletable()) {?>
+                                    	<th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_compte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                               		<?php } else {?>
+                               		    <th class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></th>
+                               		<?php }?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -177,9 +184,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                         <h3 class="panel-title"><b>ATTENTION: Suppression/Modification de Compte</b></h3>
                     </div>
                     <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un Compte n'est pas possible, cela entrainerais des résultats de Rapports illogique
-                        et des Flux d'argent pourrais se retrouver sans Compte associé.</br>
-                        De plus, la modification d'un solde n'est pas possible car cela produirait des Rapports illogique.
+                        Attention, la suppression d'un Compte n'est pas possible que s'il n'est relié à aucune entrée ou sortie d'argent.</br>
+                        De plus, la modification d'un solde n'est pas possible car cela produirait des Rapports illogiques.
                     </div>
                 </div>
             </div>

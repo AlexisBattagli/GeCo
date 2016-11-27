@@ -11,6 +11,8 @@
 
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Payement.php');
+
 ?>
 
 <html lang="fr">
@@ -132,7 +134,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
                                 <tr>
                                     <td class="text-center"><?php echo $payement->getMoyen(); ?></td>
                                     <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unPayement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
+                                    <?php if($payement->isDeletable()) {?>
+                                    	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
+                                	<?php } else {?>
+                                	    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
+                                	<?php }?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -146,8 +152,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
                         <h3 class="panel-title"><b>ATTENTION: Suppression de Moyen de Payement</b></h3>
                     </div>
                     <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un moyen de payement qui est associé à des Flux d'argent peut entrainer des erreurs par la suite.<br>
-                        Les Flux d'argent qui ont été indiqués comme faits via un moyen de payement que vous supprimez, seront conserver, cependant ils ne seront rattachés à aucun Moyen de Payement !
+                        Attention, la suppression d'un moyen de payement qui est associé à des Flux d'argent n'est pas possible car cela pourrait entrainer des erreurs par la suite.<br>
                     </div>
                 </div>
             </div>

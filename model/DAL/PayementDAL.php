@@ -142,7 +142,7 @@ class PayementDAL {
 
     public static function delete($id)
     {
-        $deleted = BaseSingleton::delete('DELETE FROM Payement WHERE id = ?', array('i', &$id));
+        $deleted = BaseSingleton::delete('DELETE FROM payement WHERE id = ?', array('i', &$id));
         return $deleted;
     }
 

@@ -141,7 +141,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                                     <td class="text-center"><?php echo $lieu->getPays(); ?></td>
                                     <td class="text-center"><?php echo $lieu->getVille(); ?></td>
                                     <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unLieu.php?idLieu=<?php echo $lieu->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_lieu.php?idLieu=<?php echo $lieu->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un lieu -->
+                                    <?php if($lieu->isDeletable()) {?>
+                                    	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_lieu.php?idLieu=<?php echo $lieu->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un lieu -->
+                               		<?php } else {?>
+                               		    <td class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></td> <!-- Lien vers un controller qui supp un lieu -->
+                               		<?php }?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -154,8 +158,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                         <h3 class="panel-title"><b>ATTENTION: Suppression de Lieux</b></h3>
                     </div>
                     <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un Lieu qui est associé à des Flux d'argent peut entrainer des erreurs par la suite.<br>
-                        Les Flux d'argent qui ont été indiqués comme faites dans le Lieu que vous supprimez, seront conserver, cependant elles ne seront rattachées à aucun Lieu !
+                        Attention, la suppression d'un Lieu qui est associé à des Flux d'argent est impossible car cela pourrait entrainer des erreurs par la suite.<br>
                     </div>
                 </div>
             </div>

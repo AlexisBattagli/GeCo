@@ -12,6 +12,8 @@
  * Cette classe représente les objet des différentes ES
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
+
 class Objet {
     
 /* 

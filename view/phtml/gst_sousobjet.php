@@ -174,6 +174,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                     </table>
                 </div>
             
+            	<br><br>
+
+                <div class="panel panel-danger col-lg-4">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><b>ATTENTION: Suppression de Sous-Objet</b></h3>
+                    </div>
+                    <div class="panel-body text-justify text-danger">
+                        Attention, la suppression d'un sous-objet qui est associé à des Flux d'argent n'est pas possible car cela pourrait entrainer des erreurs par la suite.<br>
+                    </div>
+                </div>
         </div>
     </body>
 </html>

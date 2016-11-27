@@ -82,6 +82,138 @@ class EntreeSortieDAL {
 
         return $mesES;
     }
+    
+    /*
+     * Retourne un tableau d'ES lié à un objet défini par son ID
+     *
+     * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau
+     */
+    public static function findByObjet($objetId){
+    	 
+    	$mesES = array();
+    	 
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE entree_sortie.objet_id = ?', array('i', &$objetId));
+    	 
+    	foreach ($data as $row)
+    	{
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    
+    	return $mesES;
+    }
+    
+    /*
+     * Retourne un tableau d'ES lié à un lieu défini par son ID
+     *
+     * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau
+     */
+    public static function findByLieu($lieuId){
+    
+    	$mesES = array();
+    
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE entree_sortie.lieu_id = ?', array('i', &$lieuId));
+    
+    	foreach ($data as $row)
+    	{
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    
+    	return $mesES;
+    }
+    
+    /*
+     * Retourne un tableau d'ES lié à un compte défini par son ID
+     *
+     * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau
+     */
+    public static function findByCompte($compteId){
+    
+    	$mesES = array();
+    
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE entree_sortie.compte_id = ?', array('i', &$compteId));
+    
+    	foreach ($data as $row)
+    	{
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    
+    	return $mesES;
+    }
+    
+    /*
+     * Retourne un tableau d'ES lié à un payement défini par son ID
+     *
+     * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau
+     */
+    public static function findByPayement($payementId){
+    
+    	$mesES = array();
+    
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE entree_sortie.payement_id = ?', array('i', &$payementId));
+    
+    	foreach ($data as $row)
+    	{
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    
+    	return $mesES;
+    }
 
     /*
      * Retourne l'ensemble des ES qui sont en base
