@@ -161,7 +161,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                                     <td class="text-center"><?php echo $sousobjet->getObjet()->getLabel(); ?></th>
                                     <td class="text-center"><?php echo $sousobjet->getLabel(); ?></td>
                                     <td class="text-center"><?php echo $sousobjet->getDescription(); ?></td>
-                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unSousObjet.php?idObjet=<?php echo $sousobjet->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
+                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unSousObjet.php?idSousObjet=<?php echo $sousobjet->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
                                     
                                     <?php if($sousobjet->isDeletable()) {?>
                                     	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_sousobjet.php?idSousObjet=<?php echo $sousobjet->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un sous-objet -->
