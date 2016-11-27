@@ -12,6 +12,7 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/SousObjet.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
 ?>
 

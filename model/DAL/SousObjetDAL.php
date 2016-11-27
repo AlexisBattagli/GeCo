@@ -12,6 +12,8 @@
  */
 
 require_once('BaseSingleton.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/SousObjet.php');
 
 class SousObjetDAL {
 
@@ -44,14 +46,14 @@ class SousObjetDAL {
         $mesSousObjets = array();
         
         $data = BaseSingleton::select('SELECT sous_objet.id as id, '
-                                            . 'sous_objet.objet_id as objet_id, '
-                                            . 'sous_objet.label as label, '
-                                            . 'sous_objet.description as description '
-                                    . ' FROM sous_objet ');
+                        . 'sous_objet.objet_id as objet_id, '
+                        . 'sous_objet.label as label, '
+                        . 'sous_objet.description as description '
+                        . ' FROM sous_objet');
         
         foreach ($data as $row)
         {
-            $sousObjet = new SousObjet();
+        	$sousObjet = new SousObjet();
             $sousObjet->hydrate($row);
             $mesSousObjets[] = $sousObjet;
         }

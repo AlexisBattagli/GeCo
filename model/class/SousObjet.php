@@ -87,7 +87,7 @@ class SousObjet {
      * pour accèder à la valeur contenue dans la colonne nommé attribut_1 il faut indiquer
      * dataSet['attribut_1']
      */
-    protected function hydrate($dataSet)
+    public function hydrate($dataSet)
     {
         $this->id = $dataSet['id'];
         $this->objet = $dataSet['objet_id'];
@@ -110,7 +110,6 @@ class SousObjet {
         $objet = $this->getObjet();
         
         $sousobjet = SousObjetDAL::findByLO($label,$objet);
-        echo "[DEBUG] L'id du sous-objet est :".$sousobjet->getId()."</br>"; //TODO delete this debug msg
         
         if($sousobjet->getId()==-1) //s'il y a un id par défaut retourner
         {
@@ -125,7 +124,8 @@ class SousObjet {
      * Utile pour le debug
      */
     public function toString(){
-    	echo "Caractéristique du sous-objet d'id ".$this->getId()."</br>"
+    	echo "test tostring";
+    	return "Caractéristique du sous-objet d'id ".$this->getId()."</br>"
     			. "label : ". $this->getLabel()."</br>"
     			. "description : ". $this->getDescription()."</br>"
     			. "Id de l'objet lié : ". $this->getObjet()->getId()."</br>";
