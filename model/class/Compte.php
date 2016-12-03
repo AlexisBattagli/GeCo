@@ -89,7 +89,7 @@ class Compte {
      * dataSet['attribut_1']
      */
 
-    protected function hydrate($dataSet)
+    public function hydrate($dataSet)
     {
         $this->id = $dataSet['id'];
         $this->label = $dataSet['label'];

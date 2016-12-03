@@ -90,7 +90,6 @@ class SousObjetDAL {
             $sousobjet->hydrate($data[0]);
         }
         
-        echo "ID du sousobjet renvoyé par findByLO: ".$sousobjet->getId()."</br>";
         return $sousobjet;
     }
     

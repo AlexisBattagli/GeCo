@@ -13,6 +13,8 @@
  * Cette classe représente le budget mensuel pour un objet,
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
 class Budget {
    
 /* 
@@ -44,12 +46,6 @@ class Budget {
      */
     private $annee;
     
-    /*
-     * Budget définie pour tel mois de cette année
-     * @var int
-     */
-    private $mois;
-    
 /* 
    ==============================
    ======== CONSTRUCTEUR ========
@@ -59,8 +55,9 @@ class Budget {
     /*
      * Constructeur par défaut de Budget
      */
-    public function SousObjet($id = -1, $objet = null, $valeur = 0.0, $annee = 1994, $mois = 3)
+    public function Budget($id = -1, $objet = null, $valeur = 0.0, $annee = 1994)
     {
+    	$this->id = $id;
         if (is_null($objet))
         {
             $this->objet = ObjetDAL::findDefaultObjet();
@@ -71,7 +68,6 @@ class Budget {
         }
         $this->valeur = $valeur;
         $this->annee = $annee;
-        $this->mois = $mois;
     }
     
 /* 
@@ -90,14 +86,28 @@ class Budget {
      * pour accèder à la valeur contenue dans la colonne nommé attribut_1 il faut indiquer
      * dataSet['attribut_1']
      */
-    protected function hydrate($dataSet)
+    public function hydrate($dataSet)
     {
         $this->id = $dataSet['id'];
         $this->objet = $dataSet['objet_id'];
         $this->valeur = $dataSet['valeur'];
         $this->annee = $dataSet['annee'];
-        $this->mois = $dataSet['mois'];
     } 
+    
+    
+    public function isUnique(){
+    	$result=0; //par défaut on considère qu'il existe déjà
+    	$annee = $this->getAnnee();
+    	$objet = $this->getObjet();
+    	
+    	$budget = BudgetDAL::findByAO($annee,$objet);
+    	
+    	if($budget->getId()==-1) //s'il y a un id par défaut retourner
+    	{
+    		$result=1; //alors c'est qu'il n'existe pas
+    	}
+    	return $result;
+    }
     
 /* 
    ==============================
@@ -178,19 +188,5 @@ class Budget {
     public function getAnnee()
     {
         return $this->annee;
-    }
-    
-  //mois
-    public function setMois($mois)
-    {
-        if (is_int($mois))
-        {
-            $this->mois = $mois;
-        }
-    }
-
-    public function getMois()
-    {
-        return $this->mois;
     }
 }

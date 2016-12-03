@@ -12,6 +12,7 @@
  */
 
 require_once('BaseSingleton.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Budget.php');
 
 class BudgetDAL {
 
@@ -28,7 +29,6 @@ class BudgetDAL {
                                             . 'budget.objet_id as objet_id, '
                                             . 'budget.valeur as valeur, '
                                             . 'budget.annee as annee, '
-                                            . 'budget.mois as mois '
                                     . ' FROM budget '
                                     . ' WHERE budget.id = ?', array('i',&$id));
         $budget = new Budget();
@@ -49,7 +49,6 @@ class BudgetDAL {
                                             . 'budget.objet_id as objet_id, '
                                             . 'budget.valeur as valeur, '
                                             . 'budget.annee as annee, '
-                                            . 'budget.mois as mois '
                                     . ' FROM budget ');
         
         foreach ($data as $row)
@@ -60,6 +59,69 @@ class BudgetDAL {
         }
         
         return $mesBudgets;
+    }
+    
+    
+    /*
+     * Retourne la liste des budgets pour une année donnée
+     * 
+     * @param int annee
+     * @return array[Budget]
+     */
+    public static function findByYear($annee){
+    	$mesBudgets = array();
+    	$data = BaseSingleton::select('SELECT budget.id as id, '
+                                     . 'budget.objet_id as objet_id, '
+                                     . 'budget.valeur as valeur, '
+                                     . 'budget.annee as annee '
+                                    . ' FROM budget '
+                                    . ' WHERE budget.annee = ?', array('i',&$annee));
+
+    	foreach ($data as $row){
+    		$budget = new Budget();
+    		$budget->hydrate($row);
+    		$mesBudgets[] = $budget;
+    	}
+
+    	return $mesBudgets;
+    }
+    
+    /*
+     * Retourne la liste des année où des budgets ont été définis
+     */
+    public static function findYears(){
+    	$years = array();
+    	$data = BaseSingleton::select('SELECT budget.annee as annee '
+    								. 'FROM budget '
+    								. ' GROUP BY annee');
+
+    	foreach ($data as $row){
+    		$year = $row['annee'];
+    		$years[] = $year;
+    	}
+    	
+    	return $years;
+    }
+    
+    /*
+     * 
+     */
+    public static function findByAO($annee,$objet){
+    	$objetId = $objet->getId();
+    	$data = BaseSingleton::select('SELECT budget.id as id, '
+                                            . 'budget.objet_id as objet_id, '
+                                            . 'budget.valeur as valeur, '
+                                            . 'budget.annee as annee '
+                                    . ' FROM budget '
+                                    . ' WHERE budget.annee = ? AND budget.objet_id = ?', array('ii',&$annee, &$objetId));
+    	$budget = new Budget();
+    	
+    	if (sizeof($data) > 0)
+    	{
+    		$budget->hydrate($data[0]);
+    	}
+    	
+    	return $budget;
     }
     
     /*
@@ -76,17 +138,15 @@ class BudgetDAL {
         $objetId = $budget->getObjet()->getId(); //int
         $valeur = $budget->getValeur(); //double
         $annee = $budget->getAnnee(); //int
-        $mois = $budget->getMois(); //int
         if ($id<0)
         {
             //Prépare la requête Insertion/Mise à Jour
-            $sql = 'INSERT INTO budget (objet_id, valeur, annee, mois) '
-                . ' VALUES(?,?,?,?) ';
-            $params = array('idii',
+            $sql = 'INSERT INTO budget (objet_id, valeur, annee) '
+                . ' VALUES(?,?,?) ';
+            $params = array('idi',
                 &$objetId,
                 &$valeur,
-                &$annee,
-                &$mois
+                &$annee
             );
         }
         else
@@ -94,14 +154,12 @@ class BudgetDAL {
             $sql = 'UPDATE budget '
                     . ' SET objet_id = ?, '
                         . ' valeur = ?, '
-                        . ' annee = ?,'
-                        . ' mois = ? '
+                        . ' annee = ?'
                     . ' WHERE id = ?';
-            $params = array('idiii',
+            $params = array('idii',
                 &$objetId,
                 &$valeur,
                 &$annee,
-                &$mois,
                 &$id
             );
         }

@@ -19,6 +19,7 @@ $newPayement = new Payement();
 $validMoyen = filter_input(INPUT_POST, 'moyen', FILTER_SANITIZE_STRING);
 if ($validMoyen != null)
 {
+	echo "[INFO]Moyen: " . $validMoyen . "</br>";
     $newPayement->setMoyen($validMoyen);
 }
 
