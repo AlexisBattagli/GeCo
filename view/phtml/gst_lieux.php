@@ -112,7 +112,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                         </div>
                     </form>
 
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                         </br>
                         <a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
                     </div>

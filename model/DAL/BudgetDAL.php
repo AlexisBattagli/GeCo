@@ -28,11 +28,16 @@ class BudgetDAL {
         $data = BaseSingleton::select('SELECT budget.id as id, '
                                             . 'budget.objet_id as objet_id, '
                                             . 'budget.valeur as valeur, '
-                                            . 'budget.annee as annee, '
+                                            . 'budget.annee as annee '
                                     . ' FROM budget '
                                     . ' WHERE budget.id = ?', array('i',&$id));
         $budget = new Budget();
-        $budget->hydrate($data[0]);
+        if (sizeof($data) > 0)
+        {
+        	$budget->hydrate($data[0]);
+        } else {
+        	$budget = null;
+        }
         return $budget;
     }
     
@@ -48,7 +53,7 @@ class BudgetDAL {
         $data = BaseSingleton::select('SELECT budget.id as id, '
                                             . 'budget.objet_id as objet_id, '
                                             . 'budget.valeur as valeur, '
-                                            . 'budget.annee as annee, '
+                                            . 'budget.annee as annee '
                                     . ' FROM budget ');
         
         foreach ($data as $row)
@@ -93,7 +98,8 @@ class BudgetDAL {
     	$years = array();
     	$data = BaseSingleton::select('SELECT budget.annee as annee '
     								. 'FROM budget '
-    								. ' GROUP BY annee');
+    								. ' GROUP BY annee '
+    								. ' ORDER BY annee DESC');
 
     	foreach ($data as $row){
     		$year = $row['annee'];

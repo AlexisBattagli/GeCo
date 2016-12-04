@@ -30,7 +30,12 @@ class ObjetDAL {
                                     . ' FROM objet'
                                     . ' WHERE objet.id = ?', array('i',&$id));
         $objet = new Objet();
-        $objet->hydrate($data[0]);
+        if (sizeof($data) > 0)
+        {
+        	$objet->hydrate($data[0]);
+        } else {
+        	$objet = null;
+        }
         return $objet;
     }
     

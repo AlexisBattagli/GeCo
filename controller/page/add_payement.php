@@ -48,4 +48,5 @@ else
     echo "Erreur, le Moyen de Payement que vous voulez ajouter existe déjà...";
 }
 
+?>
 

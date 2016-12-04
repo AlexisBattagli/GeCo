@@ -1,25 +1,22 @@
 <!DOCTYPE html>
 <!--
-- Page d'ajout d'un moyen de payement du site web Gestionnaire de Compte version 2.0 
+- Page de modification de Budget
 - 
 - @author Alexis BATTAGLI
 - @version 0.1
 - 
-- Permet d'afficher un formulaire pour ajouter un moyen de payement
-- Doit permettre de donné un moyen
+- Permet d'afficher un formulaire pour modifier un Budget
 -->
 
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Payement.php');
-
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
 ?>
 
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Gestion Moyen de Payement</title>
+        <title>Modification d'un Budget</title>
 
         <link rel="stylesheet" type="text/css" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap-theme.min.css"> 
@@ -89,73 +86,80 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Payement.php');
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/add_payement.php" method="POST">
-                        <legend>Formulaire d'ajout d'un nouveau Moyen de Payement</legend>
+            <?php
+            //=====Vérification de ce qui est renvoyé par l'URL en GET===/
+            $validId = filter_input(INPUT_GET, 'idBudget', FILTER_SANITIZE_STRING);
+            if ($validId != null)
+            {
+                //converie l'id envoyer par l'url (string), en id exploitable (int)
+                $validId = (int) $validId;
+                if (is_int($validId))
+                {
+                    $budget = BudgetDAL::findById($validId);
+                    if (is_null($budget))
+                    {
+                        echo "[DEBUG]Aucun Budget trouvé avec cet ID...</br>";
+                    }
+                    else
+                    {
+                        ?>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/mod_budget.php" method="POST">
+                                    <legend>Formulaire de modification d'un Budget</legend>
 
-                        <!-- Nom du Moyen-->
-                        <div class="col-lg-2">
-                            <label for="moyen" class="control-label">Moyen : </label>
-                            <input type="text" maxlength="30" name="moyen" class="form-control" id="moyen" placeholder="Ex: Carte Banquaire" required="required">
+									<!-- Objet rattaché -->
+									<div class="col-lg-2">
+										<label for="objet" class="control-label">Objet : </label>
+										<input type="text" name="objet" class="form-control" id="objet" disabled="disabled" value="<?php echo $budget->getObjet()->getLabel();?>">
+									</div>
+									
+									<!-- Année du Budget -->
+									<div class="col-lg-2">
+										<label for="annee" class="control-label">Année : </label>
+										<input type="text" name="annee" class="form-control" id="annee" disabled="disabled" value="<?php echo $budget->getAnnee();?>">
+									</div>
+									
+                                    <!-- Valeur du budget-->
+                                    <div class="col-lg-2">
+                                        <label for="valeur" class="control-label">Budget (€) : </label>
+                                        <input type="number" min="0" step="any" name="valeur" class="form-control" id="valeur" value="<?php echo $budget->getValeur(); ?>">
+                                    </div>
+
+                                    <!-- Bouton de Validation-->
+                                    <div class="col-lg-2">
+                                        </br>
+                                        <input type="submit" value="Modifier ce Budget" class="btn btn-success btn-block"/>
+                                    </div>
+
+                                    <!-- ID du Budget Caché et modification désactiver-->
+                                    <div class="col-lg-2" hidden>
+                                        <label for="id" class="control-label">Id : </label>
+                                        <input type="text" name="id" class="form-control" id="id" value="<?php echo $budget->getId(); ?>">
+                                    </div>
+                                </form>
+
+                                <div class="col-lg-2">
+                                    </br>
+                                    <a href="<?php echo $_SERVER["HTTP_REFERER"]; ?>" class="btn btn-danger btn-block">Annuler</a>
+                                </div>
+                            </div>
                         </div>
-
-                        <!-- Bouton de Validation-->
-                        <div class="col-lg-3">
-                            </br>
-                            <input type="submit" value="Ajouter ce Moyen de Payement" class="btn btn-success btn-block"/>
-                        </div>
-                    </form>
-
-                    <div class="col-lg-2">
-                        </br>
-                        <a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
-                    </div>
-                </div>
-            </div>
-
-            <br>
-
-            <?php $payements = PayementDAL::findAll(); ?>
-            <div class="row">
-                <div class="col-lg-6">
-                    <legend>Liste des Moyens de Payements précédemment ajoutés</legend>
-                    <table class="table table-bordered table-hover table-condensed">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Moyen</th>
-                                <th class="text-center">Modifier</th>
-                                <th class="text-center">Supprimer</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php foreach ($payements as $payement): ?>
-                                <tr>
-                                    <td class="text-center"><?php echo $payement->getMoyen(); ?></td>
-                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unPayement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                                    <?php if($payement->isDeletable()) {?>
-                                    	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
-                                	<?php } else {?>
-                                	    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
-                                	<?php }?>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <br><br>
-
-                <div class="panel panel-danger col-lg-6">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><b>ATTENTION: Suppression de Moyen de Payement</b></h3>
-                    </div>
-                    <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un moyen de payement qui est associé à des Flux d'argent n'est pas possible car cela pourrait entrainer des erreurs par la suite.<br>
-                    </div>
-                </div>
-            </div>
+                        <?php
+                    }
+                }
+                else
+                {
+                    echo "[DEBUG]L'ID n'a pas été casté en int et est toujours en string... </br>";
+                    echo "[DEBUG](valeur transmise: " . $validId . " )";
+                }
+            }
+            else
+            {
+                echo "[DEBUG]Aucun ID renseigné dans ce lien... </br>";
+                echo "[DEBUG](valeur transmise: " . $validId . " )";
+            }
+            ?>
         </div>
     </body>
 </html>

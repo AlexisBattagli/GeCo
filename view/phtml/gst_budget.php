@@ -154,7 +154,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
                             <tr>
                                 <th class="text-center">Objet rattaché</th>
                                 <th class="text-center">Valeur</th>
+                          <?php if ($year >= date("Y")) { //On ne peut pas modifier un budget des années précédantes ?>
                                 <th class="text-center">Modifier</th>
+                          <?php }
+                          		if ($year == date("Y")+1) { //On ne peut supprimer qu'un budget d'une année future ?>
+                          		<th class="text-center">Supprimer</th>
+                          <?php }?>      
                             </tr>
                         </thead>
 
@@ -163,7 +168,12 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
                                 <tr>
                                     <td class="text-center"><?php echo $budget->getObjet()->getLabel(); ?></td>
                                     <td class="text-center"><?php echo $budget->getValeur(); ?></td>
+                                <?php if ($year >= date("Y")) { ?>
                                     <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unBudget.php?idBudget=<?php echo $budget->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
+                                <?php } 
+                                	  if ($year == date("Y")+1) {?>
+                                	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_budget.php?idBudget=<?php echo $budget->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                               	<?php }?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -177,9 +187,11 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
                         <h3 class="panel-title"><b>ATTENTION: Suppression d'un Budget</b></h3>
                     </div>
                     <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un Budget est impossible car cela peut entrainer des erreurs par la suite.<br>
+                        Attention, la suppression d'un Budget est impossible car cela peut entrainer des erreurs par la suite. Seul la suppression des budgets pour l'année suivante sont possibles.<br>
                     </div>
                 </div>
+                
+                </br>
             </div>
             
          </div>
