@@ -13,6 +13,7 @@
  */
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
 
 class Objet {
     
@@ -97,6 +98,22 @@ class Objet {
             $result=1; //alors c'est qu'il existe pas
         }
         return $result;
+    }
+    
+    /*
+     * Regarde si l'objet n'apprtient à aucune ES ET aucun budget de l'année en cours ou précédante.
+     */
+    public function isDeletable() {
+    	$deletable = 0; //Par défaut le sous-objet n'est pas deletable
+    	
+    	$id = $this->getId();
+    	$esLiees = EntreeSortieDAL::findByObjet($id);
+    	$budgetLies = BudgetDAL::findByObjet($id);
+    	
+    	if(sizeof($esLiees)==0 && sizeof($budgetLies)==0){
+    		$deletable = 1;
+    	}
+    	return $deletable;
     }
     
 /* 

@@ -110,7 +110,7 @@ class BudgetDAL {
     }
     
     /*
-     * 
+     * Permet de recherché un Budget unique défini par le couple Année et Objet
      */
     public static function findByAO($annee,$objet){
     	$objetId = $objet->getId();
@@ -129,6 +129,53 @@ class BudgetDAL {
     	
     	return $budget;
     }
+    
+    /*
+     * Permet de retourner la liste des budget liés à un objet
+     * ATTENTION: cela ne prend pas en compte l'année prochaine.
+     */
+    public static function findByObjet($idObjet){
+    	$mesBudgets = array();
+    	$currentYear = date('Y');
+    	$data = BaseSingleton::select('SELECT budget.id as id, '
+    									.' budget.objet_id as objet_id, '
+    									.' budget.valeur as valeur, '
+    									.' budget.annee as annee '
+    								.' FROM budget '
+    								.' WHERE objet_id = ? AND annee <= ?', array('ii', &$idObjet, &$currentYear));
+    	foreach ($data as $row){
+    		$budget = new Budget();
+    		$budget->hydrate($row);
+    		$mesBudgets[] = $budget;
+    	}
+    	
+    	return $mesBudgets;
+    }
+    
+    /*
+     * Retourne le budget lié à un objet pour l'année prochaine
+     */
+    public static function findNextByObjet($idObjet){
+    	$nextYear = date('Y')+1;
+    	$data = BaseSingleton::select('SELECT budget.id as id, '
+    			.' budget.objet_id as objet_id, '
+    			.' budget.valeur as valeur, '
+    			.' budget.annee as annee '
+    			.' FROM budget '
+    			.' WHERE objet_id = ? AND annee <= ?', array('ii', &$idObjet, &$nextYear));
+    	
+    	$budget = new Budget();
+    	if (sizeof($data) > 0)
+    	{
+    		$budget->hydrate($data[0]);
+    	} else {
+    		$budget = null;
+    	}
+    	 
+    	return $budget;
+    }
+    
+    
     
     /*
      * Insère ou met à jour le sous objet donné en paramètre.

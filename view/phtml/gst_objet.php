@@ -130,6 +130,7 @@
                                 <th class="text-center">Label</th>
                                 <th class="text-center">Description</th>
                                 <th class="text-center">Modifier</th>
+                                <th class="text-center">Supprimer</th>
                             </tr>
                         </thead>
 
@@ -139,6 +140,11 @@
                                     <td class="text-center"><?php echo $objet->getLabel(); ?></td>
                                     <td class="text-center"><?php echo $objet->getDescription(); ?></td>
                                     <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unObjet.php?idObjet=<?php echo $objet->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
+                               		<?php if($objet->isDeletable()) {?>
+                                    	<th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_objet.php?idObjet=<?php echo $objet->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                               		<?php } else {?>
+                               			<th class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></th>
+                               		<?php }?>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -152,7 +158,7 @@
                         <h3 class="panel-title"><b>ATTENTION: Suppression d'Objets</b></h3>
                     </div>
                     <div class="panel-body text-justify text-danger">
-                        Attention, la suppression d'un Objet est impossible car cela peut entrainer des erreurs par la suite.<br>
+                        Attention, la suppression d'un Objet n'est réalisable uniquement si l'objet n'est rattaché à aucunes ES et aucun Budget.<br>
                     </div>
                 </div>
             </div>
