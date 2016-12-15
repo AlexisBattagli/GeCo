@@ -41,6 +41,31 @@ class SousObjetDAL {
         	return $sousObjet;
     }
     
+    /*
+     * Retourne les SousObjet correspondant à l'objet donnée
+     *
+     * @param int $idObjet Identifiant du sousObjet à trouver
+     * @return SousObjet[]
+     */
+    public static function findByObjet($idObjet)
+    {
+    	$mesSousObjets = array();
+    	$data = BaseSingleton::select('SELECT sous_objet.id as id, '
+    			. 'sous_objet.objet_id as objet_id, '
+    			. 'sous_objet.label as label, '
+    			. 'sous_objet.description as description '
+    			. ' FROM sous_objet '
+    			. ' WHERE sous_objet.objet_id = ?', array('i',&$idObjet));
+    	
+    	foreach ($data as $row){	
+    		$sousObjet = new SousObjet();
+    		$sousObjet->hydrate($row);
+    		$mesSousObjets[] = $sousObjet;
+    	}
+    	
+    	return $mesSousObjets;
+    }
+    
    /*
      * Retourne l'ensemble des SousObjet qui sont en base
      * 

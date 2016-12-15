@@ -10,14 +10,21 @@
 -->
 
 <?php
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SoldeDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
 ?>
 
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-        <title>Ajout de ES</title>
+        <title>Ajout d'ES</title>
 
         <link rel="stylesheet" type="text/css" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap-theme.min.css"> 
@@ -25,6 +32,8 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
         <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/bootstrap.js"></script>
         <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/dropdown.js"></script>
         <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/jquery-1.11.3.js"></script>
+ 
+        <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/javascript/add_es.js"></script>
 
         <style type="text/css">
             table {            
@@ -87,9 +96,73 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                     </nav>
                 </div>
             </div>
+        
+        	<form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/add_es.php" method="POST">
+            <legend>Formulaire d'ajout d'une Entrée ou Sortie</legend>
+        	
+        		<div class="row">
+           			<div class="col-lg-12">
+                    	<h4>~ Objet et Sous-Objet:</h4>
+                        	
+                        <!-- Liste les Objets -->
+                        <?php $objets = ObjetDAL::findAll(); ?>
+                        <div class='col-lg-10'>
+                        	<label for='objet_id' class='control-label'>Objet* : </label>
+                        	<select name='objet_id' id='objet'>
+                        		<?php foreach ($objets as $objet): ?>
+                        	    <option value='<?php echo $objet->getId();?>'><?php echo $objet->getLabel()." (".$objet->getDescription().")";?></option>
+                        	    <?php endforeach; ?>
+                        	</select>
+                       	</div>
+                        
+                        <!-- Renvoie à la gestion des Objets -->
+                        <div class='col-lg-2'>
+                    	   	<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_objet.php" class="btn btn-primary btn-sm active" target="_blank">Ajouter un Objet</a>
+                	    </div>
+        			</div>
+        	    </div>
+        	
+        		</br>
+             
+        		<div class="row">
+        			<div class="col-lg-12">
+        		
+        					<!-- Liste les Sous-Objets séléctionés -->
+        					<div class='col-lg-10'>
+        						<label for="sousobjet_id" class="control-label">Sous-Objet : </label>
+        						<select name="sousobjet_id" id="sousobjet_linked" ></select>
+        					</div>
+        				
+							<!-- Renvoie à la gestion des Sous-Objets -->        				
+        					<div class='col-lg-2'>
+                    	    	<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_sousobjet.php" class="btn btn-primary btn-sm active" target="_blank">Ajouter un Sous-Objet</a>
+                	        </div>
+        			</div>
+            	</div>
+        		
+        		</br>
+        	
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<h4>~ Payement:</h4>
+        			</div>
+        		</div>
+        		
+        		</br>
+        		
+        		<div class="row">
+        			<div class="col-lg-12">
+        				<h4>~ Informations:</h4>
+        			</div>
+        		</div>
+        	
+            </form>
+
+			</br>
+            
+	        <div class="col-lg-2">
+            	<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
+            </div>
         </div>
-        
-        
-        
     </body>
 </html>
