@@ -116,7 +116,7 @@ class SoldeDAL {
             $sql = 'UPDATE solde '
                     . ' SET compte_id = ?, '
                     . ' valeur = ?, '
-                    . ' date = DATE_FORMAT(?,"%Y/%m/%d") '
+                    . ' date = DATE_FORMAT(?,"%Y-%m-%d") '
                     . ' WHERE id = ?';
             $params = array('idsi',
                 &$compteId,
