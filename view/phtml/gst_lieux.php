@@ -74,7 +74,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
                         <div class="container">
                             <div class="navbar-header">    
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse"></button>
-                                <span class="navbar-brand">Gestionnaire de Compte v 2.0</span>
+                                <span class="navbar-brand">Gestionnaire de Compte 2.0</span>
                             </div>
                             <div class="collapse navbar-collapse" id="navbarCollapse">
                                 <ul class="nav navbar-nav">

@@ -83,7 +83,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                         <div class="container">
                             <div class="navbar-header">    
                                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse"></button>
-                                <span class="navbar-brand">Gestionnaire de Compte v 2.0</span>
+                                <span class="navbar-brand">Gestionnaire de Compte 2.0</span>
                             </div>
                             <div class="collapse navbar-collapse" id="navbarCollapse">
                                 <ul class="nav navbar-nav">
@@ -99,9 +99,62 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         
         	<form action=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/add_es.php" method="POST">
             <legend>Formulaire d'ajout d'une Entrée ou Sortie</legend>
-        	
+            
+            	<div class="row">
+        			<div class="col-lg-12">
+        				<h4>~ Informations générales:</h4>
+        				
+        				<!-- Date -->
+        				<div class='col-lg-4'>
+        					<label for='date' class='control-label'>Date* : </label>
+        					<input type='date' name='date' id='date'  pattern="(20[0-9][0-9])\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])" placeholder='<?php echo date('Y-m-d');?>' value='<?php echo date('Y-m-d');?>' required></input>
+        				</div>
+        				
+        				<!-- Type de flux -->
+        				<div class='col-lg-3'>
+        					<label for='es' class='control-label'>Sortie/Entrée* : </label>
+        					<select name='es' id='es'>
+        						<option value='S'>Sortie</option>
+        						<option value='E'>Entrée</option>
+        					</select>
+        				</div>
+        				
+        				<!-- Valeur -->
+        				<div class='col-lg-4'>
+        					<label for='valeur' class='control-label'>Somme (€)* : </label>
+        					<input name='valeur' id='valeur' type='number' step='0.01' min='0' placeholder='0,00 €' required></input>
+        				</div>
+        			</div>
+        		</div>
+        		
+        		</br>
+        		
         		<div class="row">
-           			<div class="col-lg-12">
+        			<div class="col-lg-12">
+        			
+        				<!-- Lieux -->
+        				<?php $lieux = LieuDAL::findAll(); ?>
+        				<div class='col-lg-10'>
+        					<label for='lieu_id' class='control-label'>Lieu* : </label>
+        					<select name='lieu_id' id='lieu_id'>
+        						<?php foreach ($lieux as $lieu): ?>
+        						<option value='<?php echo $lieu->getId();?>'><?php echo $lieu->getVille()." (".$lieu->getPays().")";?></option>
+        						<?php endforeach;?>
+        					</select>
+        				</div>
+        				
+        				 <!-- Renvoie à la gestion des Lieux -->
+                        <div class='col-lg-2'>
+                    	   	<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_lieux.php" class="btn btn-primary btn-sm active" target="_blank">Ajouter un Lieu</a>
+                	    </div>
+        				
+        			</div>
+        		</div>
+        			
+        		</br>
+        	
+        		<div class="row" >
+           			<div class="col-lg-12" >
                     	<h4>~ Objet et Sous-Objet:</h4>
                         	
                         <!-- Liste les Objets -->
@@ -142,9 +195,31 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         		
         		</br>
         	
-        		<div class="row">
-        			<div class="col-lg-12">
+        		<div class="row" >
+        			<div class="col-lg-12" >
         				<h4>~ Payement:</h4>
+        				
+        				<!-- Liste les comptes -->
+        				<?php $comptes = CompteDAL::findAll(); ?>
+        				<div class='col-lg-6' >
+        					<label for='compte_id' class='control-label'>Compte* : </label>
+        					<select name='compte_id' id='compte_id'>
+        						<?php foreach ($comptes as $compte): ?>
+        						<option value='<?php echo $compte->getId();?>'><?php echo $compte->getLabel()." (".$compte->getInformation().")";?></option>
+        						<?php endforeach;?>
+        					</select>
+        				</div>
+        				
+        				<!-- Liste les moyen de payements -->
+        				<?php $payements = PayementDAL::findAll(); ?>
+        				<div class='col-lg-6'>
+        					<label for='payement_id' class='control-label'>Moyen de payement* : </label>
+        					<select name='payement_id' id='payement_id'>
+        						<?php foreach ($payements as $payement): ?>
+        						<option value='<?php echo $payement->getId();?>'><?php echo $payement->getMoyen();?></option>
+        						<?php endforeach;?>
+        					</select>
+        				</div>
         			</div>
         		</div>
         		
@@ -152,7 +227,36 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         		
         		<div class="row">
         			<div class="col-lg-12">
-        				<h4>~ Informations:</h4>
+        				<h4>~ Informations supplémentaire:</h4>
+        				
+        				<!-- Description -->
+        				<div class='col-lg-10'>
+        					<label for='information' class='control-label'>Description : </label>
+        					<input type='text' name='information' id='information' size="80"></input>
+        				</div>
+        			</div>
+        		</div>
+        		
+        		</br>
+        		
+        		<div class="row">
+        			<div class='col-lg-12'>
+        				<!-- Etiquette -->
+        				<?php $etiquettes = EtiquetteDAL::findAll(); ?>
+        				<div class='col-lg-10'>
+        					<label for='etiquette_id' class='control-label'>Etiquette : </label>
+        					<select name='etiquette_id' id='etiquette_id'>
+        						<option value="vide">---</option>
+        						<?php foreach ($etiquettes as $etiquette): ?>
+        						<option value='<?php echo $etiquette->getLabel();?>'><?php echo $etiquette->getLabel()." (".$etiquette->getDescription().")";?></option>
+        						<?php endforeach;?>
+        					</select>
+        				</div>
+        				
+        				<!-- Rnevoie à la page d'ajout d'une etiquette -->
+        				<div class='col-lg-2'>
+        					<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/gst_etiquette.php" class="btn btn-primary btn-sm active" target="_blank">Ajouter une Etiquette</a>
+        				</div>
         			</div>
         		</div>
         	

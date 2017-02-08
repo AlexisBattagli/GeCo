@@ -20,6 +20,7 @@ $(document).ready(function () {
                 .done(function (data) {
                     var sousObjetsSelect = $('#sousobjet_linked');
                     sousObjetsSelect.html('');
+                    sousObjetsSelect.append($("<option />").val(0).text("---"));
                     $.each(data, function () {
                         // ici, c'est "un objet"
                     	sousObjetsSelect.append($("<option />").val(this.id).text(this.label));
