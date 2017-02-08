@@ -4,9 +4,9 @@
 
 $(document).ready(function () {
 
-    $('#objet').change(function () {
+    $('#objet_id').change(function () {
         console.log('change');
-        var idObjet = $('#objet').val();
+        var idObjet = $('#objet_id').val();
         console.log(idObjet);
 
         $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function () {
             },
         })
                 .done(function (data) {
-                    var sousObjetsSelect = $('#sousobjet_linked');
+                    var sousObjetsSelect = $('#sousobjet_id');
                     sousObjetsSelect.html('');
                     sousObjetsSelect.append($("<option />").val(0).text("---"));
                     $.each(data, function () {

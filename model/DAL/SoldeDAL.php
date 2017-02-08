@@ -14,13 +14,34 @@ require_once('BaseSingleton.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Solde.php');
 
 class SoldeDAL {
+	
+	/*
+	 * Return true(1) false(0), selon si la date passer en paramètre pour le comppte donné possède un solde supérieur ou égale à son plus ancien solde.
+	 */
+	public static function isYounger($compteId, $date){
+		$isYounger = 0;
+		
+		$data = BaseSingleton::select('SELECT solde.id as id, '
+				. 'solde.compte_id as compte_id, '
+				. 'solde.valeur as valeur, '
+				. 'solde.date as date '
+				. ' FROM solde '
+				. ' WHERE solde.compte_id = ? AND solde.date < ?', array('is', &$compteId,&$date));
+
+		if (sizeof($data) > 0) 
+		{
+			$isYounger = 1;
+		}
+		return $isYounger;
+		
+	}
+	
     /*
      * Retourne le Solde correspondant à l'id donnée
      * 
      * @param int $id Identifiant du solde à trouver
      * @return Solde
      */
-
     public static function findById($id)
     {
         $data = BaseSingleton::select('SELECT solde.id as id, '
@@ -30,16 +51,98 @@ class SoldeDAL {
                         . ' FROM solde '
                         . ' WHERE solde.id = ?', array('i', &$id));
         $solde = new Solde();
-        $solde->hydrate($data[0]);
+    	if (sizeof($data) > 0)
+        {
+        	$solde->hydrate($data[0]);
+        }
+        else
+        {
+        	$solde = null;
+        }
         return $solde;
     }
 
+	/*
+	 * Retourne le solde d'un compte pour un moi et une annee données
+	 * 
+	 * @param string $mois, string $annee, int $compte_id
+	 */
+    public static function findByDate($mois, $annee, $compteId)
+    {
+    	$data = BaseSingleton::select('SELECT solde.id as id, '
+                        . 'solde.compte_id as compte_id, '
+                        . 'solde.valeur as valeur, '
+                        . 'solde.date as date '
+                        . ' FROM solde '
+                        . ' WHERE solde.compte_id = ? AND MONTH(solde.date) = ? AND YEAR(solde.date) = ?', array('iss', &$compteId,&$mois,&$annee));
+    	
+    	$solde = new Solde();
+        if (sizeof($data) > 0)
+        {
+        	$solde->hydrate($data[0]);
+        }
+        else
+        {
+        	$solde = null;
+        }
+        return $solde;
+    }
+    
+    
+    /*
+     * Retourne le solde d'un comtpe le plus récent
+     */
+    public static function findLast($compteId)
+    {
+    	$data = BaseSingleton::select('SELECT solde.id as id, '
+    			. 'solde.compte_id as compte_id, '
+    			. 'solde.valeur as valeur, '
+    			. 'solde.date as date '
+    			. ' FROM solde '
+    			. ' WHERE solde.compte_id = ?'
+    			. ' ORDER BY YEAR(date) DESC, MONTH(date) DESC', array('i', &$compteId));
+    	 
+    	$solde = new Solde();
+    	if (sizeof($data) > 0)
+    	{
+    		$solde->hydrate($data[0]);
+    	}
+    	else
+    	{
+    		$solde = null;
+    	}
+    	return $solde;
+    }
+    
+    /*
+     * Retourne l'ensemble des solde compris entre la date indiquée et la date actuel, pour un compte donnée
+     */
+    public static function findByIntervalDate($date, $compteId)
+    {
+    	$mesSoldes = array();
+    	
+    	$data = BaseSingleton::select('SELECT solde.id as id, '
+    			. 'solde.compte_id as compte_id, '
+    			. 'solde.valeur as valeur, '
+    			. 'solde.date as date '
+    			. ' FROM solde '
+    			. ' WHERE solde.compte_id = ? AND solde.date BETWEEN ? AND NOW()', array('is', &$compteId,&$date));
+
+    	foreach ($data as $row)
+    	{
+    		$solde = new Solde();
+    		$solde->hydrate($row);
+    		$mesSoldes[] = $solde;
+    	}
+    	
+    	return $mesSoldes;
+    }
+    
     /*
      * Retourne l'ensemble des Soldes qui sont en base
      * 
      * @return array[Solde] Toutes les Soldes sont placées dans un Tableau
      */
-
     public static function findAll()
     {
         $mesSoldes = array();

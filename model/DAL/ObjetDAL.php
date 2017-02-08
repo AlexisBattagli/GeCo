@@ -51,7 +51,8 @@ class ObjetDAL {
         $data = BaseSingleton::select('SELECT objet.id as id, '
                                             . 'objet.label as label, '
                                             . 'objet.description as description '
-                                    . ' FROM objet');
+                                    . ' FROM objet'
+        							. ' ORDER BY objet.label ASC');
         
         foreach ($data as $row)
         {

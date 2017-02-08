@@ -122,7 +122,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         				<!-- Valeur -->
         				<div class='col-lg-4'>
         					<label for='valeur' class='control-label'>Somme (€)* : </label>
-        					<input name='valeur' id='valeur' type='number' step='0.01' min='0' placeholder='0,00 €' required></input>
+        					<input name='valeur' id='valeur' type='number' step='0.01' min='0' placeholder='0,00 €' size="5" required></input> €
         				</div>
         			</div>
         		</div>
@@ -151,7 +151,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         			</div>
         		</div>
         			
-        		</br>
+        		</br></br>
         	
         		<div class="row" >
            			<div class="col-lg-12" >
@@ -161,7 +161,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                         <?php $objets = ObjetDAL::findAll(); ?>
                         <div class='col-lg-10'>
                         	<label for='objet_id' class='control-label'>Objet* : </label>
-                        	<select name='objet_id' id='objet'>
+                        	<select name='objet_id' id='objet_id'>
                         		<?php foreach ($objets as $objet): ?>
                         	    <option value='<?php echo $objet->getId();?>'><?php echo $objet->getLabel()." (".$objet->getDescription().")";?></option>
                         	    <?php endforeach; ?>
@@ -183,7 +183,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         					<!-- Liste les Sous-Objets séléctionés -->
         					<div class='col-lg-10'>
         						<label for="sousobjet_id" class="control-label">Sous-Objet : </label>
-        						<select name="sousobjet_id" id="sousobjet_linked" ></select>
+        						<select name="sousobjet_id" id="sousobjet_id" ></select>
         					</div>
         				
 							<!-- Renvoie à la gestion des Sous-Objets -->        				
@@ -193,7 +193,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         			</div>
             	</div>
         		
-        		</br>
+        		</br></br>
         	
         		<div class="row" >
         			<div class="col-lg-12" >
@@ -223,7 +223,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         			</div>
         		</div>
         		
-        		</br>
+        		</br></br>
         		
         		<div class="row">
         			<div class="col-lg-12">
@@ -246,9 +246,9 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         				<div class='col-lg-10'>
         					<label for='etiquette_id' class='control-label'>Etiquette : </label>
         					<select name='etiquette_id' id='etiquette_id'>
-        						<option value="vide">---</option>
+        						<option value="0">---</option>
         						<?php foreach ($etiquettes as $etiquette): ?>
-        						<option value='<?php echo $etiquette->getLabel();?>'><?php echo $etiquette->getLabel()." (".$etiquette->getDescription().")";?></option>
+        						<option value='<?php echo $etiquette->getId();?>'><?php echo $etiquette->getLabel()." (".$etiquette->getDescription().")";?></option>
         						<?php endforeach;?>
         					</select>
         				</div>
@@ -259,14 +259,20 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
         				</div>
         			</div>
         		</div>
+        		
+        		</br></br>
+        		
+        		<!-- Bouton de Validation-->
+            	<div class="col-lg-3">
+                	<input type="submit" value="Ajouter cette Entrée/Sortie" class="btn btn-success btn-block"/>
+            	</div>
+            
+            	<div class="col-lg-2">
+            		<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
+            	</div>
         	
             </form>
-
-			</br>
-            
-	        <div class="col-lg-2">
-            	<a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/home.php" class="btn btn-danger btn-block">Annuler</a>
-            </div>
+	        
         </div>
     </body>
 </html>

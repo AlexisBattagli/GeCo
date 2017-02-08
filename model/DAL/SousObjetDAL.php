@@ -79,7 +79,8 @@ class SousObjetDAL {
                         . 'sous_objet.objet_id as objet_id, '
                         . 'sous_objet.label as label, '
                         . 'sous_objet.description as description '
-                        . ' FROM sous_objet');
+                        . ' FROM sous_objet'
+        				. ' ORDER BY sous_objet.objet_id ASC, sous_objet.label ASC');
         
         foreach ($data as $row)
         {

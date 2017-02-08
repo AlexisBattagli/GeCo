@@ -14,6 +14,7 @@
  * recherche, ajout, modification et suppression d'ES en base.
  */
 require_once('BaseSingleton.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
 
 class EntreeSortieDAL {
     /*
@@ -38,6 +39,7 @@ class EntreeSortieDAL {
                         . 'entree_sortie.payement_id as payement_id '
                         . ' FROM entree_sortie'
                         . ' WHERE entree_sortie.id = ?', array('i', &$id));
+        
         $entreeSortie = new EntreeSortie();
         if (sizeof($data) > 0)
         {
@@ -171,14 +173,13 @@ class EntreeSortieDAL {
     			. 'entree_sortie.payement_id as payement_id '
     			. ' FROM entree_sortie'
     			. ' WHERE entree_sortie.compte_id = ?', array('i', &$compteId));
-    
+    	
     	foreach ($data as $row)
     	{
     		$entreeSortie = new EntreeSortie();
     		$entreeSortie->hydrate($row);
     		$mesES[] = $entreeSortie;
     	}
-    
     	return $mesES;
     }
     
@@ -265,23 +266,26 @@ class EntreeSortieDAL {
         $information = $entreeSortie->getInformation(); //string
         $date = $entreeSortie->getDate(); //string
         $lieuId = $entreeSortie->getLieu()->getId(); //int
+        $compteId = $entreeSortie->getCompte()->getId(); //int
         $objetId = $entreeSortie->getObjet()->getId(); //int
         $etiquetteId = $entreeSortie->getEtiquette()->getId(); //int
         $sousObjetId = $entreeSortie->getSousObjet()->getId(); //int
         $payementId = $entreeSortie->getPayement()->getId(); //int
+        
         if ($id < 0)
         {
             //Prépare la requête Insertion/Mise à Jour
-            $sql = 'INSERT INTO entree_sortie (valeur, es, information, date, lieu_id, '
-                    . ' objet_id, compte_id, etiquette_id, sous_objet_id, payement_id '
-                    . ' VALUES(?,?,?,DATE_FORMAT(?,"%Y/%m/%d"),?,?,?,?,?,?) ';
-            $params = array('dsssiiiii',
+            $sql = "INSERT INTO entree_sortie (valeur, es, information, date, lieu_id, "
+                    . " objet_id, compte_id, etiquette_id, sous_objet_id, payement_id) "
+                    . " VALUES (?,?,?,DATE_FORMAT(?,'%Y-%m-%d'),?,?,?,?,?,?) ";
+            $params = array('dsssiiiiii',
                 &$valeur,
                 &$es,
                 &$information,
                 &$date,
                 &$lieuId,
                 &$objetId,
+            	&$compteId,
                 &$etiquetteId,
                 &$sousObjetId,
                 &$payementId
@@ -293,20 +297,21 @@ class EntreeSortieDAL {
                     . ' SET valeur = ?, '
                     . ' es = ?, '
                     . ' information = ?, '
-                    . ' date = DATE_FORMAT(?,"%Y/%m/%d"), '
+                    . ' date = DATE_FORMAT(?,"%Y-%m-%d"), '
                     . ' lieu_id = ?, '
                     . ' objet_id = ?, '
                     . ' etiquette_id = ?, '
                     . ' sous_objet_id = ?, '
                     . ' payement_id = ? '
                     . ' WHERE id = ?';
-            $params = array('dsssiiiiii',
+            $params = array('dsssiiiiiii',
                 &$valeur,
                 &$es,
                 &$information,
                 &$date,
                 &$lieuId,
                 &$objetId,
+            	&$compteId,
                 &$etiquetteId,
                 &$sousObjetId,
                 &$payementId,
@@ -316,7 +321,6 @@ class EntreeSortieDAL {
 
         //Exec la requête
         $idInsert = BaseSingleton::insertOrEdit($sql, $params);
-
         return $idInsert;
     }
 

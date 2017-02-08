@@ -127,10 +127,10 @@ class Compte {
      */
     public function isDeletable(){
     	$deletable = 0; //Par défaut le sous-objet n'est pas deletable
-    	 
+    	
     	$id = $this->getId();
     	$esLiees = EntreeSortieDAL::findByCompte($id);
-    	 
+    	
     	if(sizeof($esLiees)==0){
     		$deletable = 1;
     	}

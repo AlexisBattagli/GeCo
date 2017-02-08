@@ -15,6 +15,19 @@
  * ainsi que faire des opération sur les ES
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Lieu.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Etiquette.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Compte.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Payement.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/SousObjet.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
+
 class EntreeSortie {
     /*
       ==============================
@@ -107,7 +120,7 @@ class EntreeSortie {
         $this->date = $date;
         if (is_null($lieu))
         {
-            $lieu = LieuDAL::findDefaultLieu();
+			$this->lieu = new Lieu();
         }
         else
         {
@@ -116,7 +129,7 @@ class EntreeSortie {
 
         if (is_null($objet))
         {
-            $objet = ObjetDAL::findDefaultObjet();
+            $this->objet = new Objet();
         }
         else
         {
@@ -125,7 +138,7 @@ class EntreeSortie {
 
         if (is_null($compte))
         {
-            $compte = CompteDAL::findDefaultCompte();
+            $this->compte = new Compte();
         }
         else
         {
@@ -134,7 +147,7 @@ class EntreeSortie {
 
         if (is_null($etiquette))
         {
-            $etiquette = EtiquetteDAL::findDefaultEtiquette();
+            $this->etiquette = new Etiquette();
         }
         else
         {
@@ -143,7 +156,7 @@ class EntreeSortie {
 
         if (is_null($sousObjet))
         {
-            $sousObjet = SousObjetDAL::findDefaultSousObjet();
+            $this->sousObjet = new SousObjet();
         }
         else
         {
@@ -152,7 +165,7 @@ class EntreeSortie {
 
         if (is_null($payement))
         {
-            $payement = PayementDAL::findDefaultPayement();
+            $this->payement = new Payement();
         }
         else
         {
@@ -177,7 +190,7 @@ class EntreeSortie {
      * dataSet['attribut_1']
      */
 
-    protected function hydrate($dataSet)
+    public function hydrate($dataSet)
     {
         $this->id = $dataSet['id'];
         $this->valeur = $dataSet['valeur'];
@@ -192,6 +205,20 @@ class EntreeSortie {
         $this->payement = $dataSet['payement_id'];
     }
 
+    public function getMois()
+    {
+    	$date = $this->getDate();
+    	$datePars = explode('-', $date);    	
+    	return $datePars[1];
+    }
+    
+    public function getAnnee()
+    {
+    	$date = $this->getDate();
+    	$datePars = explode('-', $date);
+    	return $datePars[0];
+    }
+    
     /*
       ==============================
       ======= GETTER/SETTER ========
