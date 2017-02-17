@@ -115,6 +115,35 @@ class SoldeDAL {
     }
     
     /*
+     * Retourne le solde d'un comtpe le plus récent strictement antérieur à une date donnée
+     */
+    public static function findOldLast($date, $compteId)
+    {
+    	$data = BaseSingleton::select('SELECT solde.id as id, '
+    			. 'solde.compte_id as compte_id, '
+    			. 'solde.valeur as valeur, '
+    			. 'solde.date as date '
+    			. ' FROM solde '
+    			. ' WHERE solde.compte_id = ? AND date < ? '
+    			. ' ORDER BY YEAR(date) DESC, MONTH(date) DESC', array('is', &$compteId, &$date));
+    
+    	echo '<pre>';
+    	var_dump($data);
+    	echo '</pre>';
+    	
+    	$solde = new Solde();
+    	if (sizeof($data) > 0)
+    	{
+    		$solde->hydrate($data[0]);
+    	}
+    	else
+    	{
+    		$solde = null;
+    	}
+    	return $solde;
+    }
+    
+    /*
      * Retourne l'ensemble des solde compris entre la date indiquée et la date actuel, pour un compte donnée
      */
     public static function findByIntervalDate($date, $compteId)

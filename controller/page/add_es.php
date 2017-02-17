@@ -161,6 +161,23 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					echo "[DEBUG] Nouveau solde de ".$newSolde->getValeur()." pour le compte ".$newSolde->getCompte()." pour ce mois-ci créer avec succés !";
 				}
 			}else if(($mois<date('m') && date('Y')==$annee) || $annee<date('Y')){ //si l'es est antérieur au mois actuel
+				//Vérifie s'il y a un solde pour ce mois/année là
+				$soldeCurrent = SoldeDAL::findByDate($mois, $annee, $validCompte);
+				if($soldeCurrent == null){ //s'il n'existe pas, le créer avec la valeur du solde le précédant, il ser amis à jour après.
+					echo "[DEBUG] Il n'y a pas de solde trouvé en ".$mois."/".$annee." pour le compte ".$validCompte."</br>";
+					$newSolde = new Solde();
+					echo "[DEBUG] Récupère le solde du compte ".$validCompte." le plus récent.</br>";
+					$oldSolde = SoldeDAL::findOldLast($validDate, $validCompte);
+					echo "[DEBUG] Le solde le plus récent enregistré pour ce compte est de ".$oldSolde->getValeur()."</br>";
+					$newSolde->setCompte($validCompte);
+					$newSolde->setValeur($oldSolde->getValeur());
+					echo "[DEBUG] Création d'un solde pour le compte ".$validCompte.", à la date du ".$mois."/".$annee.".</br>";
+					$idNewSolde = SoldeDAL::insertOnDuplicate($newSolde);
+					$solde = SoldeDAL::findById($idNewSolde);
+					$solde->setDate($validDate);
+					SoldeDAL::insertOnDuplicate($solde);
+				}
+				
 				$soldes = SoldeDAL::findByIntervalDate($validDate, $validCompte); //récupèrer tous les solde compris entre le mois/annee de la date de l'es et maintenant.
 				foreach ($soldes as $solde): //parcours les solde passé de ce compte, il y a toujours au moins 1, le tout premier !
 					echo "[DEBUG] Solde du ".$solde->getDate()."</br>";
