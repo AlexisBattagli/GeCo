@@ -138,7 +138,7 @@ echo "[DEBUG] Le transfert a eu lieu le " . $mois . "/" . $annee . ".</br>";
 if ($annee < date('Y') || ($mois <= date('m') && $annee == date('Y'))) { // Si l'es est dans le présent ou passé
 	
 	if (SoldeDAL::isYounger($validCompteDeb, $validDate) == 1 && SoldeDAL::isYounger($validCompteCred, $validDate) == 1) { // Si la date est supérieur ou égale au plus vieux solde des comptes Deb et Cred
-	                                                                                                                             
+	                                                                                                                       
 		// =====Insertion de l'ES dans la table entree_sortie=====//
 		echo "[DEBUG] Création de l'entrée et la sortie relatives au Transfert.</br>";
 		$validInsertIn = EntreeSortieDAL::insertOnDuplicate($newTrfIn);
@@ -153,50 +153,49 @@ if ($annee < date('Y') || ($mois <= date('m') && $annee == date('Y'))) { // Si l
 			$soldeDeb = SoldeDAL::findByDate($mois, $annee, $validCompteDeb);
 			if ($soldeDeb != null) {
 				echo "[DEBUG] Il y a déjà un solde à la date indiquée pour ce compte.</br>";
-				echo "[DEBUG] Mise à jour du solde d'id: ".$soldeDeb->getId()."</br>";
+				echo "[DEBUG] Mise à jour du solde d'id: " . $soldeDeb->getId() . "</br>";
 			} else {
 				echo "[DEBUG] Il n'y a pas de solde à la date indiquée pour ce compte.</br>";
 				$soldeDeb = SoldeDAL::findOldLast($validDate, $validCompteDeb);
-				$soldeDeb->setId(-1); //réinitialise l'id pour que l'on créer bien un nouveau solde
+				$soldeDeb->setId(-1); // réinitialise l'id pour que l'on créer bien un nouveau solde
 				echo "[DEBUG] Création d'un solde pour ce compte à la date indiquée.</br>";
 			}
 			$soldeDeb->setDate($addedOut->getDate());
 			SoldeDAL::insertOnDuplicate($soldeDeb);
 			
-			//=====Solde du compte crédité=====//
+			// =====Solde du compte crédité=====//
 			$soldeCred = SoldeDAL::findByDate($mois, $annee, $validCompteCred);
 			if ($soldeCred != null) {
 				echo "[DEBUG] Il y a déjà un solde à la date indiquée pour ce compte.</br>";
-				echo "[DEBUG] Mise à jour du solde d'id: ".$soldeCred->getId().".</br>";
+				echo "[DEBUG] Mise à jour du solde d'id: " . $soldeCred->getId() . ".</br>";
 			} else {
 				echo "[DEBUG] Il n'y a pas de solde à la date indiquée pour ce compte.</br>";
 				$soldeCred = SoldeDAL::findOldLast($validDate, $validCompteCred);
-				$soldeCred->setId(-1); //réinitialise l'id pour que l'on créer bien un nouveau solde
+				$soldeCred->setId(-1); // réinitialise l'id pour que l'on créer bien un nouveau solde
 				echo "[DEBUG] Création d'un solde pour ce compte à la date indiquée.</br>";
 			}
 			$soldeCred->setDate($addedIn->getDate());
 			SoldeDAL::insertOnDuplicate($soldeCred);
 			
-			//====Met à jour les Soldes du compte débité, entre la date indiqué et maintenant=====//
+			// ====Met à jour les Soldes du compte débité, entre la date indiqué et maintenant=====//
 			$soldesDeb = SoldeDAL::findByIntervalDate($validDate, $validCompteDeb);
-			foreach ($soldesDeb as $solde):
-				echo "[DEBUG] Solde du ".$solde->getDate()."</br>";
-				echo "[DEBUG] Le solde était de ".$solde->getValeur()."</br>";
-				$solde->setValeur($solde->getValeur() + $addedOut->getValeur()); //calcul le nouveau solde
-				echo "[DEBUG] Le nouveau solde est de ".$solde->getValeur()."</br>";
-				SoldeDAL::insertOnDuplicate($solde); //met à jour le solde
+			foreach ($soldesDeb as $solde) :
+				echo "[DEBUG] Solde du " . $solde->getDate() . "</br>";
+				echo "[DEBUG] Le solde était de " . $solde->getValeur() . "</br>";
+				$solde->setValeur($solde->getValeur() + $addedOut->getValeur()); // calcul le nouveau solde
+				echo "[DEBUG] Le nouveau solde est de " . $solde->getValeur() . "</br>";
+				SoldeDAL::insertOnDuplicate($solde); // met à jour le solde
 			endforeach;
 			
-			//====Met à jour les Soldes du compte crédité, entre la date indiqué et maintenant=====//
+			// ====Met à jour les Soldes du compte crédité, entre la date indiqué et maintenant=====//
 			$soldesCred = SoldeDAL::findByIntervalDate($validDate, $validCompteCred);
-			foreach ($soldesCred as $solde):
-				echo "[DEBUG] Solde du ".$solde->getDate()."</br>";
-				echo "[DEBUG] Le solde était de ".$solde->getValeur()."</br>";
-				$solde->setValeur($solde->getValeur() + $addedOut->getValeur()); //calcul le nouveau solde
-				echo "[DEBUG] Le nouveau solde est de ".$solde->getValeur()."</br>";
-				SoldeDAL::insertOnDuplicate($solde); //met à jour le solde
+			foreach ($soldesCred as $solde) :
+				echo "[DEBUG] Solde du " . $solde->getDate() . "</br>";
+				echo "[DEBUG] Le solde était de " . $solde->getValeur() . "</br>";
+				$solde->setValeur($solde->getValeur() + $addedOut->getValeur()); // calcul le nouveau solde
+				echo "[DEBUG] Le nouveau solde est de " . $solde->getValeur() . "</br>";
+				SoldeDAL::insertOnDuplicate($solde); // met à jour le solde
 			endforeach;
-			
 		} else {
 			echo "[ERROR] L'entrée ou la sortie liée au Transfert n'a pas été ajouté en base.</br>";
 		}

@@ -106,7 +106,7 @@ blockquote {
 	</div>
 
 	<div class="container">
-		<form action=<?php $_SERVER['DOCUMENT_ROOT']?> "/controller/page/add_trf.php" method="POST">
+		<form action=<?php $_SERVER['DOCUMENT_ROOT']?> "/controller/page/add_trf.php" method="POST" target="_blank">
 			<legend>Formulaire d'ajout d'un Transfert d'argent</legend>
 
 			<div class="row">
