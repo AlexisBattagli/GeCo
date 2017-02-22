@@ -26,7 +26,7 @@ class SoldeDAL {
 				. 'solde.valeur as valeur, '
 				. 'solde.date as date '
 				. ' FROM solde '
-				. ' WHERE solde.compte_id = ? AND solde.date < ?', array('is', &$compteId,&$date));
+				. ' WHERE solde.compte_id = ? AND solde.date <= ?', array('is', &$compteId,&$date));
 
 		if (sizeof($data) > 0) 
 		{
@@ -126,11 +126,7 @@ class SoldeDAL {
     			. ' FROM solde '
     			. ' WHERE solde.compte_id = ? AND date < ? '
     			. ' ORDER BY YEAR(date) DESC, MONTH(date) DESC', array('is', &$compteId, &$date));
-    
-    	echo '<pre>';
-    	var_dump($data);
-    	echo '</pre>';
-    	
+
     	$solde = new Solde();
     	if (sizeof($data) > 0)
     	{
@@ -237,10 +233,11 @@ class SoldeDAL {
         {
             //Prépare la requête Insertion/Mise à Jour
             $sql = 'INSERT INTO solde (compte_id, valeur, date) '
-                    . ' VALUES(?,?,NOW()) ';
-            $params = array('id',
+                    . ' VALUES(?,?,DATE_FORMAT(?,"%Y-%m-%d")) ';
+            $params = array('ids',
                 &$compteId,
                 &$valeur,
+            	&$date
             );
         }
         else

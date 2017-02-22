@@ -59,9 +59,9 @@ class SousObjet {
      */
     public function SousObjet($id = -1, $objet = null, $label = "Label Default", $description = "Aucune description pour ce sous-objet")
     {
-        if (is_null($objet))
+    	if (is_null($objet))
         {
-            $this->objet = ObjetDAL::findDefaultObjet();
+            $this->objet = new Objet();
         }
         else
         {
