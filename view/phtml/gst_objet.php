@@ -120,7 +120,7 @@
             
             <br>
 
-            <?php $objets = ObjetDAL::findAll(); ?>
+            <?php $objets = ObjetDAL::findAllUsabled(); ?>
             <div class="row">
                 <div class="col-lg-8">
                     <legend>Liste des Objets précédemment ajoutés</legend>

@@ -96,7 +96,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
                         <legend>Formulaire d'ajout d'un Sous-Objet</legend>
                         
                         <!-- Objet à associer au Sous-Objet -->
-                        <?php $objets = ObjetDAL::findAll(); ?>
+                        <?php $objets = ObjetDAL::findAllUsabled(); ?>
                         <div class='col-lg-2'>
                             <label for='objet_id' class='control-label'>Objet* : </label>
                             <select name='objet_id' id='objet_id'>

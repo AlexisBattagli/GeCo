@@ -11,6 +11,13 @@
  * recherche, ajout, modification et suppression d'Objet en base.
  */
 
+// Afficher les erreurs à l'écran
+ini_set('display_errors', 1);
+// Enregistrer les erreurs dans un fichier de log
+ini_set('log_errors', 1);
+// Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
+ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
+
 require_once('BaseSingleton.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
 
@@ -63,6 +70,34 @@ class ObjetDAL {
         
         return $mesObjets;
     }
+    
+    /*
+     * Retourne l'ensemble des Objet qui sont en base, à l'exception de l'objet 'Transfert'
+     *
+     * @return array[Objet] Toutes les objets sont placées dans un Tableau
+     */
+    public static function findAllUsabled()
+    {
+    	$mesObjets = array();
+    
+    	$data = BaseSingleton::select('SELECT objet.id as id, '
+    			. 'objet.label as label, '
+    			. 'objet.description as description '
+    			. ' FROM objet'
+    			. ' ORDER BY objet.label ASC');
+
+    	foreach ($data as $row)
+    	{
+    		if($row["label"]!='Transfert'){
+    			$objet = new Objet();
+    			$objet->hydrate($row);
+    			$mesObjets[] = $objet;
+    		}
+    	}
+    
+    	return $mesObjets;
+    }
+    
     
     /*
      * Retourne l'Objet correspondant au label passer en paramètre

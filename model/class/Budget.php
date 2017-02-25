@@ -60,12 +60,13 @@ class Budget {
     	$this->id = $id;
         if (is_null($objet))
         {
-            $this->objet = ObjetDAL::findDefaultObjet();
+            $this->objet = new Objet();
         }
         else
         {
             $this->objet = $objet;
         }
+    	
         $this->valeur = $valeur;
         $this->annee = $annee;
     }

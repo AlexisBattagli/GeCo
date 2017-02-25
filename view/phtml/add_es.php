@@ -175,7 +175,7 @@ blockquote {
 					<h4>~ Objet et Sous-Objet:</h4>
 
 					<!-- Liste les Objets -->
-                        <?php $objets = ObjetDAL::findAll(); ?>
+                        <?php $objets = ObjetDAL::findAllUsabled(); ?>
                         <div class='col-lg-10'>
 						<label for='objet_id' class='control-label'>Objet* : </label>
 						<select name='objet_id' id='objet_id'>
