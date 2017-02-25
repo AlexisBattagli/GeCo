@@ -137,7 +137,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Payement.php');
                                     <?php if($payement->isDeletable()) {?>
                                     	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
                                 	<?php } else {?>
-                                	    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_payement.php?idPayement=<?php echo $payement->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
+                                	    <td class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></td> <!-- Lien vers un controller qui supp un moyen de payement -->
                                 	<?php }?>
                                 </tr>
                             <?php endforeach; ?>

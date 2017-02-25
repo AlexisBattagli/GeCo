@@ -30,6 +30,12 @@ class RapportDefini extends Rapport{
      */
     private $dateFin;
     
+    /*
+     * Liste d'ES du mois donné
+     * @var EntreeSortie[]
+     */
+    private $entreesSorties;
+    
 /* 
    ==============================
    ======== CONSTRUCTEUR ========

@@ -173,7 +173,7 @@
                     <legend>Statistique et Analyse</legend>
                     <div class="list-group">       
                         <div class="col-lg-4">
-                            <a href="#" class="list-group-item">
+                            <a href="./rapport_menu.php" class="list-group-item">
                                 <h4 class="list-group-item-heading">Rapport</h4>
                                 <p class="list-group-item-text">Visualiser les rapport mensuel annuel ou sur une période donnée.</p>
                             </a>

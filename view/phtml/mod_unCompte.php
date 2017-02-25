@@ -130,13 +130,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                                     </div>
 
                                     <!-- Numéro de compte-->
-                                    <div class="col-lg-2">
+                                    <div class="col-lg-3">
                                         <label for="identifiant" class="control-label">Numero de Compte : </label>
                                         <input type="text" name="identifiant" class="form-control" id="identifiant" value="<?php echo $compte->getIdentifiant(); ?>" required="required">
                                     </div>
 
                                     <!-- ID du Compte, caché-->
-                                    <div class="col-lg-2" hidden>
+                                    <div class="col-lg-1" hidden>
                                         <label for="id" class="control-label">Id : </label>
                                         <input type="text" name="id" class="form-control" id="id" value="<?php echo $compte->getId(); ?>">
                                     </div>
@@ -148,7 +148,7 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
                                                 </br>
                                                 <input type="submit" value="Modifier ce Compte" class="btn btn-success btn-block"/>
                                             </div>
-                                            <div class="col-lg-1">
+                                            <div class="col-lg-2">
                                                 </br>
                                                 <a href="<?php echo $_SERVER["HTTP_REFERER"]; ?>" class="btn btn-danger btn-block">Annuler</a>
                                             </div>

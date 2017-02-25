@@ -13,6 +13,14 @@
  * Cette class permet de faire,
  * recherche, ajout, modification et suppression d'ES en base.
  */
+
+// Afficher les erreurs à l'écran
+ini_set('display_errors', 1);
+// Enregistrer les erreurs dans un fichier de log
+ini_set('log_errors', 1);
+// Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
+ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
+
 require_once('BaseSingleton.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
 
@@ -247,6 +255,41 @@ class EntreeSortieDAL {
         }
 
         return $mesES;
+    }
+    
+    /**
+     * Liste les année où il y a des ES
+     */
+    public static function listAnnees(){
+    	$annees = array();
+    	$annees = null;
+    	$data = BaseSingleton::select('SELECT YEAR(entree_sortie.date) as annee 
+    									FROM entree_sortie 
+    									GROUP BY annee;');
+    	
+    	foreach ($data as $row){
+    		$annees[] = $row['annee'];
+    	}
+
+    	return $annees;
+    }
+    
+    /**
+     * Liste les mois d'une année donnée, où il y a des ES
+     */
+    public static function listMois($annee){
+    	$mois = array();
+    	$mois = null;
+    	$data = BaseSingleton::select('SELECT MONTH(entree_sortie.date) as mois
+    									FROM entree_sortie
+										WHERE YEAR(entree_sortie.date)=?
+    									GROUP BY mois;', array('i', &$annee));
+    	 
+    	foreach ($data as $row){
+    		$mois[] = $row['mois'];
+    	}
+    
+    	return $mois;
     }
 
     /*

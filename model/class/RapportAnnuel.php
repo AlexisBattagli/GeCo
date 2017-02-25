@@ -25,6 +25,12 @@ class RapportAnnuel extends Rapport {
      */
     private $annee;
     
+    /*
+     * Liste de rapport mensuel
+     * @var RapportMensuel[] 
+     */
+    private $rapportsMensuel;
+    
 /* 
    ==============================
    ======== CONSTRUCTEUR ========

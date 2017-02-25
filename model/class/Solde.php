@@ -56,7 +56,14 @@ class Solde {
     public function Solde($id = -1, $compte = null, $valeur = 0, $date = "1994-03-08")
     {
         $this->id = $id;
-        $this->compte = $compte;
+    	if (is_null($compte))
+        {
+            $this->compte = new Compte();
+        }
+        else
+        {
+            $this->compte = $compte;
+        }
         $this->valeur = $valeur;
         $this->date = $date;
     }

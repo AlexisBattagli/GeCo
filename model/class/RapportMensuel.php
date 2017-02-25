@@ -25,6 +25,12 @@ class RapportMensuel extends Rapport{
      */
     private $mois;
     
+    /*
+     * Liste d'ES du mois donné
+     * @var EntreeSortie[]
+     */
+    private $entreesSorties;
+    
 /* 
    ==============================
    ======== CONSTRUCTEUR ========
