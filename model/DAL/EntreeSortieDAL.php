@@ -223,6 +223,39 @@ class EntreeSortieDAL {
     
     	return $mesES;
     }
+    
+    /*
+     * Retourne un tableau d'entree et sortie, compris dans un intervalle de temps donné en paramètre
+     * 
+     * @return array[EntreeSortie]
+     */
+    public static function findByIntervalDate($startingDate, $endingDate)
+    {
+    	$mesES = array();
+    	
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE date BETWEEN ? and ?'
+    			. ' ORDER BY date ASC', array('ss', &$startingDate, &$endingDate));
+
+    	foreach ($data as $row){
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    	
+    	return $mesES;
+    }
 
     /*
      * Retourne l'ensemble des ES qui sont en base

@@ -30,7 +30,7 @@ if ($validId != null)
 		echo "[INFO]Verification du success de la suppression. </br>";
 		$isDead = new SousObjet();
 		$isDead = SousObjetDAL::findById($validId);
-		if (is_null($isDead))
+		if (is_null($isDead) || $isDead->getId()==-1)
 		{
 			echo "[INFO]Suppression reussi --> OK </br>";
 			//Renvoie à la page précédante
@@ -40,7 +40,7 @@ if ($validId != null)
 		{
 			echo "[DEBUG]Echec de la suppression...</br>";
 			echo "[DEBUG]La recherche par id apres lancement de suppression a trouver le sous-objet suivant </br>";
-			echo $isDead;
+			echo $isDead->getId();
 		}
 	}
 	else

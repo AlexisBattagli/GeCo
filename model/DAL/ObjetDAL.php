@@ -118,9 +118,9 @@ class ObjetDAL {
         if (sizeof($data) > 0)
         {
             $objet->hydrate($data[0]);
-        }else{
+        }/*else{
         	$objet=null;
-        }
+        } On ne met jamais à null un objet ! mais un objet avec id = -1*/
         
         return $objet;
     }
@@ -204,6 +204,7 @@ class ObjetDAL {
      */
     public static function delete($id)
     {
+    	BaseSingleton::delete('DELETE FROM sous_objet WHERE objet_id = ?',array('i', &$id));
         $deleted = BaseSingleton::delete('DELETE FROM objet WHERE id = ?', array('i', &$id));
         return $deleted;
     }

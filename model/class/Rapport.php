@@ -10,6 +10,9 @@
  * elle permet de gèrer les attributs de base que l'on doit retrouver dans un rapports. 
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
+
 class Rapport {
     
 /* 
@@ -17,6 +20,19 @@ class Rapport {
    ========= ATTRIBUTS ==========
    ============================== 
 */
+	
+	/*
+	 * Liste des entrées et sorties du rapport
+	 * @var EntreeSortie[]
+	 */
+	private $entreesSorties;
+	
+	/*
+	 * Liste des transferts du rapport
+	 * @var EntreeSortie[]
+	 */
+	private $transferts;	
+	
     /*
      * Nombre de Sortie
      * @var int
@@ -65,12 +81,139 @@ class Rapport {
    ============================== 
 */ 
 
+    /*
+     * Constructeur par défaut
+     */
+    public function Rapport($flux = array()){
+    	echo "[DEBUG] Commence la création de l'objet rapport, à partir du tableau d'entrée sortie.</br>";
+    	
+    	$this->entreesSorties = $this->listEntreesSorties($flux); 
+    	echo "[DEBUG] Il y a ".count($this->getEntreesSorties())." es dans ce rapport.</br>";
+    	
+    	$this->transferts = $this->listTransferts($flux); 
+    	echo "[DEBUG] Il y a ".count($this->getTransferts())." transferts dans ce rapport.</br>";
+    	
+    	$this->nbSortie = $this->calNbSortie();
+    	$this->nbEntree = $this->calNbEntree();
+    	$this->totSortie = $this->calTotS();
+    	$this->totEntree = $this->calTotE();
+    	
+    	if($this->getNbSortie()>0){
+    		$this->moySortie = round($this->getTotSortie() / $this->getNbSortie(), 2); // arrondi à deux décimales
+    	}else if($this->getNbSortie()==0 && $this->getTotSortie()==0){
+    		$this->moySortie = 0;
+    	}else{
+    		$this->moySortie = 0;
+    		echo "[ERROR] Nombre de sortie vaut ".$this->getNbSortie().", or le total de sortie est de ".$this->getTotSortie()." € ! </br>";
+    	}
+    	echo "[DEBUG] La moyenne des sorties est de ".$this->getMoySortie()." €</br>";
+    	
+    	if($this->getNbEntree()>0){
+    		$this->moyEntree = round($this->getTotEntree() / $this->getNbEntree(), 2); // arrondi à deux décimales
+    	}else if($this->getNbEntree()==0 && $this->getTotEntree()==0){
+    		$this->moyEntree = 0;
+    	}else{
+    		$this->moyEntree = 0;
+    		echo "[ERROR] Nombre d'entrée vaut ".$this->getNbEntree().", or le total de sortie est de ".$this->getTotEntree()." € ! </br>";
+    	}
+    	echo "[DEBUG] La moyenne des entrées est de ".$this->getMoyEntree()." €</br>";
+  
+    	$this->gain = $this->getTotEntree() - $this->getTotSortie();
+    	echo "[DEBUG] Le gain est de ".$this->getGain()." €</br>";
+    	
+    }
 /* 
    ==============================
    ========== METHODES ==========
    ============================== 
-*/ 
-  
+*/
+    
+    /*
+     * Recupère les flux d'argent qui sont uniquement des transfert
+     */
+    public function listTransferts($flux){
+    	$list = array();
+    	foreach ($flux as $trf){
+    		if($trf->getObjet()->isTrf()){
+    			array_push($list, $trf);
+    		}
+    	}
+    	return $list;
+    }
+    
+    /*
+     * Recupère les flux d'argent qui sont uniquement des entrées ou sorties, autre que des transfert
+     */
+    public function listEntreesSorties($flux){
+    	$list = array();
+    	foreach ($flux as $es){
+    		if(!$es->getObjet()->isTrf()){
+    			array_push($list, $es);
+    		}
+    	}
+    	return $list;
+    }  
+    
+    /*
+     * Calcule à partir d'un tableau d'entrée et de sortie le nombre de sortie
+     */
+    public function calNbSortie(){
+    	$nbS = 0;
+    	foreach ($this->getEntreesSorties() as $es){
+    		if($es->isS()){
+    			$nbS++;
+    		}
+    	}
+    	echo "[DEBUG] On a ".$nbS." sortie(s).</br>";
+    	return $nbS;
+    }
+    
+    /*
+     * Calcule à partir d'un tableau d'entrée et de sortie le nombre de entrée
+     */
+    public function calNbEntree(){
+    	$nbE = 0;
+    	foreach ($this->getEntreesSorties() as $es){
+    		if($es->isE()){
+    			$nbE++;
+    		}
+    	}
+    	echo "[DEBUG] On a ".$nbE." entrée(s).</br>";
+    	return $nbE;
+    }
+    
+    /*
+     * Calcule à partir d'un tableau d'ES, la sommme total des sorties
+     * 
+     * @return int
+     */
+    public function calTotS(){
+    	$totS = 0;
+    	foreach ($this->getEntreesSorties() as $es){
+    		if($es->isS()){
+    			$totS += $es->getValeur(); 
+    		}
+    	}
+    	echo "[DEBUG] La somme des sorties est de ".$totS." €.</br>";
+    	return $totS;
+    }
+    
+    /*
+     * Calcule à partir d'un tableau d'ES, la sommme total des entrées
+     *
+     * @return int
+     */
+    public function calTotE(){
+    	$totE = 0;
+    	foreach ($this->getEntreesSorties() as $es){
+    		if($es->isE()){
+    			$totE += $es->getValeur();
+    		}
+    	}
+    	echo "[DEBUG] La somme des entrées est de ".$totE." €.</br>";
+    	return $totE;
+    }
+    
 /* 
    ==============================
    ======= GETTER/SETTER ========
@@ -192,5 +335,37 @@ class Rapport {
     {
         return $this->gain;
     }
+
+    /*
+     * entreesSorties
+     */
+    public function setEntreesSorties($entreesSorties)
+    {
+    	if(is_array($entreesSorties))
+    	{
+    		$this->entreesSorties = $entreesSorties;
+    	}
+    }
     
+    public function getEntreesSorties()
+    {
+    	return $this->entreesSorties;
+    }
+    
+    
+    /*
+     * transferts
+     */
+    public function setTransferts($transferts)
+    {
+    	if(is_array($transferts))
+    	{
+    		$this->transferts = $transferts;
+    	}
+    }
+    
+    public function getTransferts()
+    {
+    	return $this->transferts;
+    }
 }

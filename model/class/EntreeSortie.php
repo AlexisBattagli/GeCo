@@ -220,6 +220,27 @@ class EntreeSortie {
     }
     
     /*
+     * Indique si une es est une sorti (true) ou pas (false)
+     */
+    public function isS(){
+    	return $this->getEs()=='S';
+    }
+    
+    /*
+     * Indique si une es est une entrée (true) ou pas (false)
+     */
+    public function isE(){
+    	return $this->getEs()=='E';
+    }
+    
+    /*
+     * Retourne le nombre de fois où un objet donnée a été associé à une sortie sur une période de temps donnée
+     */
+    public function calNbS($start, $end, $objetId){
+    	 
+    }
+    
+    /*
       ==============================
       ======= GETTER/SETTER ========
       ==============================

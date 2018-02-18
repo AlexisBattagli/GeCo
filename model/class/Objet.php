@@ -116,6 +116,18 @@ class Objet {
     	return $deletable;
     }
     
+    /*
+     * Regarde si l'objet est un transfert
+     */
+    public function isTrf(){
+    	$result = false;
+    	if($this->getLabel() == "Transfert"){
+    		$result = true;
+    	}
+    	return $result;
+    }
+    
+    
 /* 
    ==============================
    ======= GETTER/SETTER ========

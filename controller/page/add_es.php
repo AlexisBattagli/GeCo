@@ -140,9 +140,10 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 			echo "[DEBUG] Le flux d'argent est de ".$validValeur." €.</br>";
 		
 			if(date('m')==$mois && date('Y')==$annee){ //si l'ES à eu lieu ce mois-ci
+				echo "[DEBUG] L'es a eu lieu ce mois-ci. </br>";
 				$soldeCurrent = SoldeDAL::findByDate($mois, $annee, $validCompte);
 				if($soldeCurrent != null){ //S'il y a déjà un solde ce mois-ci
-					echo "[DEBUG] Il y a un solde trouvé ce mois-ci pour le compte".$validCompte.".</br>";
+					echo "[DEBUG] Il y a un solde trouvé ce mois-ci pour le compte ".$validCompte.".</br>";
 					echo "[DEBUG] L'ancien solde de ce compte est ".$soldeCurrent->getValeur().".</br>";
 					$soldeCurrent->setValeur($soldeCurrent->getValeur() + $validValeur); //met à jour la valeur du solde de ce mois-ci
 					echo "[DEBUG] Le nouveau solde est ".$soldeCurrent->getValeur()."</br>";
@@ -155,13 +156,15 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					$lastSolde = SoldeDAL::findLast($validCompte); //récupère le solde le plus récent (il y en aura toujours un au minimum)
 					echo "[DEBUG] Le solde le plus récent enregistré pour ce compte est de ".$lastSolde->getValeur()."</br>";
 					$newSolde->setCompte($validCompte);
+					$newSolde->setDate($addedES->getDate());
 					$newSolde->setValeur($lastSolde->getValeur() + $validValeur);
 					echo "[DEBUG] Le nouveau solde pour se compte est ".$newSolde->getValeur()."</br>";
 					SoldeDAL::insertOnDuplicate($newSolde); //crée un solde pour ce mois-ci
-					echo "[DEBUG] Nouveau solde de ".$newSolde->getValeur()." pour le compte ".$newSolde->getCompte()." pour ce mois-ci créer avec succés !";
+					echo "[DEBUG] Nouveau solde de ".$newSolde->getValeur()." pour le compte ".$newSolde->getCompte()->getLabel()." pour ce mois-ci (".$newSolde->getDate().") créer avec succés !";
 				}
 			}else if(($mois<date('m') && date('Y')==$annee) || $annee<date('Y')){ //si l'es est antérieur au mois actuel
 				//Vérifie s'il y a un solde pour ce mois/année là
+				echo "[DEBUG] L'es a eu lieu avant ce mois-ci. </br>";
 				$soldeCurrent = SoldeDAL::findByDate($mois, $annee, $validCompte);
 				if($soldeCurrent == null){ //s'il n'existe pas, le créer avec la valeur du solde le précédant, il ser amis à jour après.
 					echo "[DEBUG] Il n'y a pas de solde trouvé en ".$mois."/".$annee." pour le compte ".$validCompte."</br>";
@@ -176,6 +179,13 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					$solde = SoldeDAL::findById($idNewSolde);
 					$solde->setDate($validDate);
 					SoldeDAL::insertOnDuplicate($solde);
+				}else{ //Il y a déjà un solde le mois de l'es qui à lieu avant ce mois-ci.
+					echo "[DEBUG] Il y a un solde trouvé avant ce mois-ci pour le compte ".$validCompte.".</br>";
+					echo "[DEBUG] L'ancien solde de ce compte est ".$soldeCurrent->getValeur().".</br>";
+					$soldeCurrent->setValeur($soldeCurrent->getValeur() + $validValeur); //met à jour la valeur du solde de ce mois-ci
+					echo "[DEBUG] Le nouveau solde est ".$soldeCurrent->getValeur()."</br>";
+					SoldeDAL::insertOnDuplicate($soldeCurrent); //met à jour le solde de ce mois-ci avec sa new value
+					echo "[DEBUG] Mise à jour du solde de ce mois-ci ok !";
 				}
 				
 				$soldes = SoldeDAL::findByIntervalDate($validDate, $validCompte); //récupèrer tous les solde compris entre le mois/annee de la date de l'es et maintenant.
@@ -187,6 +197,10 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					echo "[DEBUG] Le nouveau solde est de ".$solde->getValeur()."</br>";
 					SoldeDAL::insertOnDuplicate($solde); //met à jour le solde
 				endforeach;
+			}else{
+				echo "[ERROR] L'es n'a eu lieu ni ce mois-ci, ni avant...</br>";
+				echo "[ERROR] L'es a eu lieu le mois ".$mois." et l'année ".$annee."</br>";
+				echo "[ERROR] Or nous somme au mois de ".$mois." et en l'année ".$annee."</br>";
 			}
 		}else{ //L'insertion de l'ES de n'a pas été faite...
 			echo "[ERROR] Echec de l'insertion de l'ES.</br>";

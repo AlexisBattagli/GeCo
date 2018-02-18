@@ -10,6 +10,10 @@
  * Cette class permet de gènèrer un rapport sur la période souhaité.
  */
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Rapport.php');
+
 class RapportDefini extends Rapport{
 
 /* 
@@ -36,18 +40,74 @@ class RapportDefini extends Rapport{
      */
     private $entreesSorties;
     
+    /*
+     * Listes des Objet du rapport
+     * @var Objet[]
+     */
+    private $bilanObjets;
+    
 /* 
    ==============================
    ======== CONSTRUCTEUR ========
    ============================== 
 */ 
 
+    public function RapportDefini($dateDebut = "1994-03-08", $dateFin = "1994-03-08"){
+    	
+    	$this->dateDebut = $dateDebut;
+    	$this->dateFin = $dateFin;
+    	$this->entreesSorties = EntreeSortieDAL::findByIntervalDate($dateDebut, $dateFin);
+    	parent::Rapport($this->entreesSorties); //les attributs d'un rapport sont calculés avec des méthodes propre à la classe Rapport, à partir uniquement du tableau d'entr&ées et sorties !!
+    	$this->bilanObjets = $this->calBilanObjets(); //TODO
+    }
 /* 
    ==============================
    ========== METHODES ==========
    ============================== 
 */ 
   
+    /*
+     * Récupère la liste des ES du rapport Defini
+     */
+    public function getES(){
+    	return parent::getEntreesSorties();
+    }
+    
+    /*
+     * Recupère les objets d'un tableau d'EntreeSortie
+     */
+    public function calBilanObjets() //TODO ici ajouter les stat pour calculer les gain par objets avec comparaison du budget
+    {
+    	$listBO = array(
+    			'id' => array(),
+    			'label' => array(),
+    			'nbS' => array(),
+    			'nbE' => array(),
+    			'totS' => array(),
+    			'totE' => array(),
+    			'gain' => array(),
+    			'budget' => array()
+    	);
+    	
+    	$listES = $this->getES();
+    	
+    	foreach ($listES as $es){
+    		if(!in_array($es->getObjet()->getId(), $listBO['id'])){
+    			//echo "[DEBUG] Ajout de l'objet ".$es->getObjet()->getLabel()."</br>";
+    			array_push($listBO['id'],$es->getObjet()->getId());
+    			array_push($listBO['label'], $es->getObjet()->getLabel());
+    			array_push($listBO['nbS'], $es->calNbS($this->getDateDebut(), $this->getDateFin(), $es->getObjet()->getId()));
+    			//TODO calculer ici les différent element du tableau par Objet de la view rapport_defini
+    		}
+    	}
+    	
+    	echo '<pre>';
+    	var_dump($listBO);
+    	echo '</pre>';
+    	
+    	return $listBO;
+    }
+    
 /* 
    ==============================
    ======= GETTER/SETTER ========
@@ -84,5 +144,21 @@ class RapportDefini extends Rapport{
     public function getDateFin()
     {
         return $this->dateFin;
+    }
+    
+    /*
+     * objets
+     */
+    public function setBilanObjets($bilanObjets)
+    {
+    	if(is_array($bilanObjets))
+    	{
+    		$this->bilanObjets = $bilanObjets;
+    	}
+    }
+    
+    public function getBilanObjets()
+    {
+    	return $this->bilanObjets;
     }
 }

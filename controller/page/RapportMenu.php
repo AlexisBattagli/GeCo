@@ -4,7 +4,7 @@
  * Controlleur pour la page web /view/phtml/rapport_menu.php
  * 
  * @author AlexisBattagli
- * @date 24 févire 2017
+ * @date 24 février 2017
  * @version 0.1
  */
 
@@ -33,5 +33,10 @@ class RapportMenu {
 	 */
 	public static function listMois($annee) {
 		return EntreeSortieDAL::listMois($annee);		
+	}
+	
+	public static function firstDate(){
+		$entreesSorties = EntreeSortieDAL::findAll();
+		
 	}
 }

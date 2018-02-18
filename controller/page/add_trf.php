@@ -182,7 +182,7 @@ if ($annee < date('Y') || ($mois <= date('m') && $annee == date('Y'))) { // Si l
 			foreach ($soldesDeb as $solde) :
 				echo "[DEBUG] Solde du " . $solde->getDate() . "</br>";
 				echo "[DEBUG] Le solde était de " . $solde->getValeur() . "</br>";
-				$solde->setValeur($solde->getValeur() + $addedOut->getValeur()); // calcul le nouveau solde
+				$solde->setValeur($solde->getValeur() - $addedOut->getValeur()); // calcul le nouveau solde
 				echo "[DEBUG] Le nouveau solde est de " . $solde->getValeur() . "</br>";
 				SoldeDAL::insertOnDuplicate($solde); // met à jour le solde
 			endforeach;
