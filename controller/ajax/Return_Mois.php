@@ -8,7 +8,7 @@ ini_set('log_errors', 1);
 ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
 // import
-require_once ($_SERVER ['DOCUMENT_ROOT'] . '/controller/page/RapportMenu.php');
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/controller/page/rapport_menu_ctrl.php');
 
 // Définition du message renvoyé
 $message = "error";
@@ -18,7 +18,7 @@ $message = "error";
 $validAnnee = filter_input(INPUT_POST, 'annee', FILTER_SANITIZE_STRING);
 
 // Récupération des sous-objets de l'objet.
-$listMois = RapportMenu::listMois($validAnnee);
+$listMois = RapportMenuCtrl::listMois($validAnnee);
 $listMoisJson = [ ];
 foreach ($listMois as $mois) {
 	$listMoisJson [$mois] ['num'] = $mois;

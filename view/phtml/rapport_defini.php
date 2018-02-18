@@ -16,10 +16,9 @@ ini_set('log_errors', 1);
 // Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
 ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Rapport.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/RapportDefini.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/controller/page/rapport_def_ctrl.php');
 
 //======Vérification de ce qui est renvoyé par le formulaire de /view/phtml/rapport_menu.php====/
 echo "[DEBUG] Vérifie la date de début reçue</br>";
@@ -44,7 +43,8 @@ else {
 	echo "[ERROR] Le champ fin est vide... il vaut :".$validDateFin."</br>";
 }
 
-$rapportDef = new RapportDefini($debut, $fin);
+$flux = RapportDefCtrl::getFlux($debut, $fin);
+$rapportDef = new RapportDefini($debut, $fin, $flux);
 
 ?>
 
@@ -180,7 +180,7 @@ body {
 		</div>
 		
 		<div class="row">
-			<?php //$objets = $rapportDef->getBilanObjets();?>
+			<?php $listObjets = RapportDefCtrl::calBilanObjets($entreesSorties, $debut, $fin);?>
 			<legend>Gain par Objet sur la période du <?php echo $debut;?> au <?php echo $fin;?></legend>
 			<div class="col-lg-12">
 				<table class="table table-bordered table-hover table-condensed">
@@ -195,11 +195,11 @@ body {
 							<th class="text-center">Budget <?php echo date('Y');?></th>
 						</tr>
 					</thead>
-					
-				<!--	<tbody>
-					<?php //foreach ($objets as $objet): ?>
+					<!-- 
+					<tbody>
+					<?php //foreach ($listObjets as $objet): ?>
 						<tr>
-							<td class="text-center"><?php //echo $objet['label']; ?></td>
+							<td class="text-center"><?php  //echo $objet['label']; ?></td>
 							<td class="text-center"><?php //echo $objet['id']; ?></td>
 							<td class="text-center"><?php //echo $objet['label']; ?></td>
 							<td class="text-center"><?php //echo $objet['id']; ?></td>
@@ -208,7 +208,7 @@ body {
 							<td class="text-center"><?php //echo $objet['label']; ?></td>
 						</tr>
 					</tbody>
-					-->
+					 -->
 				</table>
 			</div>
 		</div>

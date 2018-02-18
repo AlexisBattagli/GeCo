@@ -14,7 +14,7 @@ ini_set('log_errors', 1);
 // Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
 ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
-require_once ($_SERVER ['DOCUMENT_ROOT'] . '/controller/page/RapportMenu.php');
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/controller/page/rapport_menu_ctrl.php');
 
 ?>
 
@@ -119,7 +119,7 @@ body {
 					<legend>Rapport Annuel</legend>
 
 					<?php
-					$annees = RapportMenu::listAnnees();
+					$annees = RapportMenuCtrl::listAnnees();
 					if (is_null($annees)) {
 						?>
 					
@@ -162,7 +162,7 @@ body {
 					<legend>Rapport Mensuel</legend>
 
 					<?php
-					$annees = RapportMenu::listAnnees();
+					$annees = RapportMenuCtrl::listAnnees();
 					if (is_null($annees)) {
 						?>
 					<div class="panel panel-danger col-lg-8">

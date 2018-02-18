@@ -17,7 +17,7 @@ ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
 require_once ($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 
-class RapportMenu {
+class RapportMenuCtrl {
 	
 	/**
 	 * Retourne un tableau de l'ensemble des années mentionnée dans els date des ES existant. 
