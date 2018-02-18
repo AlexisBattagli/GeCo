@@ -12,6 +12,13 @@
  * Cette classe représente les objet des différentes ES
  */
 
+// Afficher les erreurs à l'écran
+ini_set('display_errors', 1);
+// Enregistrer les erreurs dans un fichier de log
+ini_set('log_errors', 1);
+// Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
+ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
 
@@ -125,6 +132,20 @@ class Objet {
     		$result = true;
     	}
     	return $result;
+    }
+    
+    /*
+     * Retourne le nombre de fois où un objet donnée a été associé à une sortie sur une période de temps donnée
+     */
+    public function getSbyObjet($start, $end){
+    	return EntreeSortieDAL::findSbyObjetByTime($start, $end, $this->getId());
+    }
+    
+    /*
+     * Retourne le nombre de fois où un objet donnée a été associé à une entrée sur une période de temps donnée
+     */
+    public function getEbyObjet($start, $end){
+    	return EntreeSortieDAL::findEbyObjetByTime($start, $end, $this->getId());
     }
     
     

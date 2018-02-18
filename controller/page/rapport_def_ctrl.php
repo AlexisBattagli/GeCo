@@ -38,25 +38,58 @@ class RapportDefCtrl {
 				'nbE' => array(),
 				'totS' => array(),
 				'totE' => array(),
-				'gain' => array(),
-				'budget' => array()
+				'gain' => array()
 		);
 		 
 		foreach ($listES as $es){
-			if(!in_array($es->getObjet()->getId(), $listBO['id'])){
+			$objet = $es->getObjet();
+			if(!in_array($objet->getId(), $listBO['id'])){
 				//echo "[DEBUG] Ajout de l'objet ".$es->getObjet()->getLabel()."</br>";
+				$listSbyObjet = $objet->getSbyObjet($dateDebut, $dateFin);
+				$listEbyObjet = $objet->getEbyObjet($dateDebut, $dateFin);
+				$totS = self::calTotS($listSbyObjet);
+				$totE = self::calTotE($listEbyObjet);
+				
 				array_push($listBO['id'],$es->getObjet()->getId());
 				array_push($listBO['label'], $es->getObjet()->getLabel());
-				array_push($listBO['nbS'], $es->calNbS($dateDebut, $dateFin, $es->getObjet()->getId()));
-				//TODO calculer ici les différent element du tableau par Objet de la view rapport_defini
-			}
+				array_push($listBO['nbS'], count($listSbyObjet));
+				array_push($listBO['nbE'], count($listEbyObjet));
+				array_push($listBO['totS'], $totS);
+				array_push($listBO['totE'], $totE);
+				array_push($listBO['gain'], $totE - $totS);
+			}/*else{
+				echo "[DEBUG] L'objet ".$es->getObjet()->getLabel()." est déjà présent.</br>";
+				
+			}*/
 		}
 		 
-		echo '<pre>';
-		var_dump($listBO);
-		echo '</pre>';
-		 
 		return $listBO;
+	}
+	
+	/*
+	 * Retourne la somme total de sortie d'une liste d'ES
+	 */
+	public function calTotS($entreesSorties = array()){
+		$totS = 0;
+		foreach ($entreesSorties as $es){
+			if($es->isS()){
+				$totS += $es->getValeur();
+			}
+		}
+		return $totS;
+	}
+	
+	/*
+	 * Retourne la somme total d'entrée d'une liste d'ES
+	 */
+	public function calTotE($entreesSorties = array()){
+		$totE = 0;
+		foreach ($entreesSorties as $es){
+			if($es->isE()){
+				$totE += $es->getValeur();
+			}
+		}
+		return $totE;
 	}
 }
 

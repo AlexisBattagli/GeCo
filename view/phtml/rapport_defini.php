@@ -21,22 +21,22 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/RapportDefini.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/controller/page/rapport_def_ctrl.php');
 
 //======Vérification de ce qui est renvoyé par le formulaire de /view/phtml/rapport_menu.php====/
-echo "[DEBUG] Vérifie la date de début reçue</br>";
+//echo "[DEBUG] Vérifie la date de début reçue</br>";
 $validDateDebut = filter_input(INPUT_POST, 'debut', FILTER_SANITIZE_STRING);
 if ($validDateDebut != null)
 {
-	echo "[DEBUG] Le champ debut est ok et vaut :".$validDateDebut."</br>";
+	//echo "[DEBUG] Le champ debut est ok et vaut :".$validDateDebut."</br>";
 	$debut = $validDateDebut;
 }
 else {
 	echo "[ERROR] Le champ debut est vide... il vaut :".$validDateDebut."</br>";
 }
 
-echo "[DEBUG] Vérifie la date de fin reçue </br>";
+//echo "[DEBUG] Vérifie la date de fin reçue </br>";
 $validDateFin = filter_input(INPUT_POST, 'fin', FILTER_SANITIZE_STRING);
 if ($validDateFin != null)
 {
-	echo "[DEBUG] Le champ fin est ok et vaut :".$validDateFin."</br>";
+	//echo "[DEBUG] Le champ fin est ok et vaut :".$validDateFin."</br>";
 	$fin = $validDateFin;
 }
 else {
@@ -155,23 +155,28 @@ body {
                             <th class="text-center">Compte</th>
                             <th class="text-center">Moyen de payement</th>
                             <th class="text-center">Lieux</th>
-                            <th class="text-center">Modifier</th>
+                      <!--  <th class="text-center">Modifier</th>  Fonctionalité non prioritaire-->
                             <th class="text-center">Supprimer</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                    <?php foreach ($entreesSorties as $es): ?>
+                    <?php foreach ($entreesSorties as $es): 
+                    		$couleur = 'red';
+                    		if($es->isE()){
+                    			$couleur = 'green';
+                    		}
+                    ?>
                     	<tr>
-                        	<td class="text-center"><?php echo $es->getDate(); ?></td>
-                            <td class="text-center"><?php echo $es->getValeur(); ?></td>
-                            <td class="text-center"><?php echo $es->getInformation(); ?></td>
-                            <td class="text-center"><?php echo $es->getObjet()->getLabel(); ?></td>
-                            <td class="text-center"><?php echo $es->getCompte()->getLabel(); ?></td>
-                            <td class="text-center"><?php echo $es->getPayement()->getMoyen(); ?></td>
-                            <td class="text-center"><?php echo $es->getLieu()->getVille()." (".$es->getLieu()->getPays().")"; ?></td>
-                            <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_es.php?idES=<?php echo $es->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                            <th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                        	<td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getDate(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getValeur(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getInformation(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getObjet()->getLabel(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getCompte()->getLabel(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getPayement()->getMoyen(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getLieu()->getVille()." (".$es->getLieu()->getPays().")"; ?></td>
+                       <!-- <td class="text-center" style="color:<?php //echo $couleur;?>"> <a href=<?php // $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_es.php?idES=<?php //echo $es->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td>  --> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
+                            <th class="text-center" style="color:<?php echo $couleur;?>"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -181,6 +186,7 @@ body {
 		
 		<div class="row">
 			<?php $listObjets = RapportDefCtrl::calBilanObjets($entreesSorties, $debut, $fin);?>
+			
 			<legend>Gain par Objet sur la période du <?php echo $debut;?> au <?php echo $fin;?></legend>
 			<div class="col-lg-12">
 				<table class="table table-bordered table-hover table-condensed">
@@ -191,24 +197,22 @@ body {
 							<th class="text-center">Nombre d'Entrée</th>
 							<th class="text-center">Sortie (€)</th>
 							<th class="text-center">Entrée (€)</th>
-							<th class="text-center">Gain</th>
-							<th class="text-center">Budget <?php echo date('Y');?></th>
+							<th class="text-center">Gain (€)</th>
 						</tr>
 					</thead>
-					<!-- 
+					
 					<tbody>
-					<?php //foreach ($listObjets as $objet): ?>
+					<?php for ($i = 0; $i < count($listObjets['id']); $i++): ?>
 						<tr>
-							<td class="text-center"><?php  //echo $objet['label']; ?></td>
-							<td class="text-center"><?php //echo $objet['id']; ?></td>
-							<td class="text-center"><?php //echo $objet['label']; ?></td>
-							<td class="text-center"><?php //echo $objet['id']; ?></td>
-							<td class="text-center"><?php //echo $objet['label']; ?></td>
-							<td class="text-center"><?php //echo $objet['id']; ?></td>
-							<td class="text-center"><?php //echo $objet['label']; ?></td>
+							<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/rapport_objet.php?idObjet=<?php echo $listObjets['id'][$i]; ?>?debut=<?php echo $debut; ?>?fin=<?php echo $fin; ?>"</a><?php echo $listObjets['label'][$i]; ?></td>
+							<td class="text-center"><?php echo $listObjets['nbS'][$i]; ?></td>
+							<td class="text-center"><?php echo $listObjets['nbE'][$i]; ?></td>
+							<td class="text-center"><?php echo $listObjets['totS'][$i]; ?></td>
+							<td class="text-center"><?php echo $listObjets['totE'][$i]; ?></td>
+							<td class="text-center"><?php echo $listObjets['gain'][$i]; ?></td>
 						</tr>
+					<?php  endfor; ?>
 					</tbody>
-					 -->
 				</table>
 			</div>
 		</div>

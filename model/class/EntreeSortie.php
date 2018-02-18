@@ -15,6 +15,13 @@
  * ainsi que faire des opération sur les ES
  */
 
+// Afficher les erreurs à l'écran
+ini_set('display_errors', 1);
+// Enregistrer les erreurs dans un fichier de log
+ini_set('log_errors', 1);
+// Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
+ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Lieu.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Objet.php');
@@ -231,13 +238,6 @@ class EntreeSortie {
      */
     public function isE(){
     	return $this->getEs()=='E';
-    }
-    
-    /*
-     * Retourne le nombre de fois où un objet donnée a été associé à une sortie sur une période de temps donnée
-     */
-    public function calNbS($start, $end, $objetId){
-    	 
     }
     
     /*
