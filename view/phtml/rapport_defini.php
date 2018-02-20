@@ -162,21 +162,21 @@ body {
 
                     <tbody>
                     <?php foreach ($entreesSorties as $es): 
-                    		$couleur = 'red';
+                    		$couleurES = 'red';
                     		if($es->isE()){
-                    			$couleur = 'green';
+                    			$couleurES = 'green';
                     		}
                     ?>
                     	<tr>
-                        	<td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getDate(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getValeur(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getInformation(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getObjet()->getLabel(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getCompte()->getLabel(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getPayement()->getMoyen(); ?></td>
-                            <td class="text-center" style="color:<?php echo $couleur;?>"><?php echo $es->getLieu()->getVille()." (".$es->getLieu()->getPays().")"; ?></td>
+                        	<td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getDate(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getValeur(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getInformation(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getObjet()->getLabel(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getCompte()->getLabel(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getPayement()->getMoyen(); ?></td>
+                            <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getLieu()->getVille()." (".$es->getLieu()->getPays().")"; ?></td>
                        <!-- <td class="text-center" style="color:<?php //echo $couleur;?>"> <a href=<?php // $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_es.php?idES=<?php //echo $es->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td>  --> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                            <th class="text-center" style="color:<?php echo $couleur;?>"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                            <th class="text-center" style="color:<?php echo $couleurES;?>"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>&debut=<?php echo $debut; ?>&fin=<?php echo $fin; ?>" class="btn btn-danger btn-sm active">Sup</a></th>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -202,17 +202,42 @@ body {
 					</thead>
 					
 					<tbody>
-					<?php for ($i = 0; $i < count($listObjets['id']); $i++): ?>
+					<?php 
+						$couleurObj = 'red';
+						$nbObj = count($listObjets['id']);
+						for ($i = 0; $i < $nbObj; $i++): 
+							if($listObjets['gain'][$i]>=0){
+								$couleurObj = 'green';
+							}
+					?>
 						<tr>
-							<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/rapport_objet.php?idObjet=<?php echo $listObjets['id'][$i]; ?>?debut=<?php echo $debut; ?>?fin=<?php echo $fin; ?>"</a><?php echo $listObjets['label'][$i]; ?></td>
+							<td class="text-center" ><a style="color:<?php echo $couleurObj;?>" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/rapport_objet.php?idObjet=<?php echo $listObjets['id'][$i]; ?>?debut=<?php echo $debut; ?>?fin=<?php echo $fin; ?>"</a><?php echo $listObjets['label'][$i]; ?></td>
 							<td class="text-center"><?php echo $listObjets['nbS'][$i]; ?></td>
 							<td class="text-center"><?php echo $listObjets['nbE'][$i]; ?></td>
-							<td class="text-center"><?php echo $listObjets['totS'][$i]; ?></td>
-							<td class="text-center"><?php echo $listObjets['totE'][$i]; ?></td>
-							<td class="text-center"><?php echo $listObjets['gain'][$i]; ?></td>
+							<td class="text-center"><span style="font-weight:bold"><?php echo $listObjets['totS'][$i]; ?></span> (<?php echo $listObjets['%S'][$i]; ?> %)</td>
+							<td class="text-center"><span style="font-weight:bold"><?php echo $listObjets['totE'][$i]; ?></span> (<?php echo $listObjets['%E'][$i]; ?> %)</td>
+							<td class="text-center" style="color:<?php echo $couleurObj;?>"><?php echo $listObjets['gain'][$i]; ?></td>
 						</tr>
 					<?php  endfor; ?>
 					</tbody>
+					
+					<tfoot>
+						<tr>
+							<th class="text-center">Total <?php echo $nbObj;?> Objet(s)</th>
+							<th class="text-center"><?php echo $rapportDef->getNbSortie()?> sortie(s)</th>
+							<th class="text-center"><?php echo $rapportDef->getNbEntree()?> entrée(s)</th>
+							<th class="text-center" style="color:red"><?php echo $rapportDef->getTotSortie()?> €</th>
+							<th class="text-center" style="color:green"><?php echo $rapportDef->getTotEntree()?> €</th>
+							<th class="text-center"
+								<?php 
+									$couleurTotObj = 'red';
+									if($rapportDef->getGain() >= 0){
+										$couleurTotObj = 'green';
+									}
+								?>
+								style="color:<?php echo $couleurTotObj;?>"><?php echo $rapportDef->getGain()?></th>
+						</tr>
+					</tfoot>
 				</table>
 			</div>
 		</div>

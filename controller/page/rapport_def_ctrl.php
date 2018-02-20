@@ -38,25 +38,34 @@ class RapportDefCtrl {
 				'nbE' => array(),
 				'totS' => array(),
 				'totE' => array(),
+				'%S' => array(),
+				'%E' => array(),
 				'gain' => array()
 		);
 		 
 		foreach ($listES as $es){
 			$objet = $es->getObjet();
+			$totalS = self::calTotS($listES);
+			$totalE = self::calTotE($listES);
+			
 			if(!in_array($objet->getId(), $listBO['id'])){
 				//echo "[DEBUG] Ajout de l'objet ".$es->getObjet()->getLabel()."</br>";
 				$listSbyObjet = $objet->getSbyObjet($dateDebut, $dateFin);
 				$listEbyObjet = $objet->getEbyObjet($dateDebut, $dateFin);
-				$totS = self::calTotS($listSbyObjet);
-				$totE = self::calTotE($listEbyObjet);
+				$totObjS = self::calTotS($listSbyObjet);
+				$totObjE = self::calTotE($listEbyObjet);
+				$perCentS = round(($totObjS / $totalS)*100, 2);
+				$perCentE = round(($totObjE / $totalE)*100, 2);
 				
 				array_push($listBO['id'],$es->getObjet()->getId());
 				array_push($listBO['label'], $es->getObjet()->getLabel());
 				array_push($listBO['nbS'], count($listSbyObjet));
 				array_push($listBO['nbE'], count($listEbyObjet));
-				array_push($listBO['totS'], $totS);
-				array_push($listBO['totE'], $totE);
-				array_push($listBO['gain'], $totE - $totS);
+				array_push($listBO['totS'], $totObjS);
+				array_push($listBO['totE'], $totObjE);
+				array_push($listBO['%S'], $perCentS);
+				array_push($listBO['%E'], $perCentE);
+				array_push($listBO['gain'], $totObjE - $totObjS);
 			}/*else{
 				echo "[DEBUG] L'objet ".$es->getObjet()->getLabel()." est déjà présent.</br>";
 				
