@@ -208,6 +208,8 @@ body {
 						for ($i = 0; $i < $nbObj; $i++): 
 							if($listObjets['gain'][$i]>=0){
 								$couleurObj = 'green';
+							}else{
+								$couleurObj = 'red';
 							}
 					?>
 						<tr>

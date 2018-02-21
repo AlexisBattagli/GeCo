@@ -76,6 +76,7 @@ echo "[DEBUG] Le compte rattaché à cette ES est ".$compte->getLabel().".</br>"
 
 //Récupère les soldes du compte impactés par l'ES (SELECT Solde)
 
+
 //Met à jour chaque solde de ce compte (UPDATE Solde)
 
 //Supprime l'ES en base (DELETE EntreeSortie
