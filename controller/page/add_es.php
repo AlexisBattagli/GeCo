@@ -185,10 +185,10 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					$soldeCurrent->setValeur($soldeCurrent->getValeur() + $validValeur); //met à jour la valeur du solde de ce mois-ci
 					echo "[DEBUG] Le nouveau solde est ".$soldeCurrent->getValeur()."</br>";
 					SoldeDAL::insertOnDuplicate($soldeCurrent); //met à jour le solde de ce mois-ci avec sa new value
-					echo "[DEBUG] Mise à jour du solde de ce mois-ci ok !";
+					echo "[DEBUG] Mise à jour du solde de ce mois-ci ok !</br>";
 				}
 				
-				$soldes = SoldeDAL::findByIntervalDate($validDate, $validCompte); //récupèrer tous les solde compris entre le mois/annee de la date de l'es et maintenant.
+				$soldes = SoldeDAL::findByIntervalDateSup($validDate, $validCompte); //récupèrer tous les solde compris entre le mois/annee de la date de l'es et maintenant.
 				foreach ($soldes as $solde): //parcours les solde passé de ce compte, il y a toujours au moins 1, le tout premier !
 					echo "[DEBUG] Solde du ".$solde->getDate()."</br>";
 					echo "[DEBUG] Le solde était de ".$solde->getValeur()."</br>";

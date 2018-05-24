@@ -178,7 +178,7 @@ if ($annee < date('Y') || ($mois <= date('m') && $annee == date('Y'))) { // Si l
 			SoldeDAL::insertOnDuplicate($soldeCred);
 			
 			// ====Met à jour les Soldes du compte débité, entre la date indiqué et maintenant=====//
-			$soldesDeb = SoldeDAL::findByIntervalDate($validDate, $validCompteDeb);
+			$soldesDeb = SoldeDAL::findByIntervalDateMoisSupEq($validDate, $validCompteDeb);
 			foreach ($soldesDeb as $solde) :
 				echo "[DEBUG] Solde du " . $solde->getDate() . "</br>";
 				echo "[DEBUG] Le solde était de " . $solde->getValeur() . "</br>";
@@ -188,7 +188,7 @@ if ($annee < date('Y') || ($mois <= date('m') && $annee == date('Y'))) { // Si l
 			endforeach;
 			
 			// ====Met à jour les Soldes du compte crédité, entre la date indiqué et maintenant=====//
-			$soldesCred = SoldeDAL::findByIntervalDate($validDate, $validCompteCred);
+			$soldesCred = SoldeDAL::findByIntervalDateMoisSupEq($validDate, $validCompteCred);
 			foreach ($soldesCred as $solde) :
 				echo "[DEBUG] Solde du " . $solde->getDate() . "</br>";
 				echo "[DEBUG] Le solde était de " . $solde->getValeur() . "</br>";

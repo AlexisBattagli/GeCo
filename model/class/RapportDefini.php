@@ -65,13 +65,6 @@ class RapportDefini extends Rapport{
     	return parent::getEntreesSorties();
     }
     
-    /*
-     * Récupère la liste des ES du rapport Defini (hors Transfert)
-     
-    public function getTotS(){
-    	return parent::getTotS();
-    }
-    */
     
 /* 
    ==============================

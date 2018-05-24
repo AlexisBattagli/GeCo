@@ -159,6 +159,22 @@ class Compte {
         return $valeur;
     }
 
+   
+    /*
+     * Retourne le nombre de fois où un compte donnée a été associé à une sortie sur une période de temps donnée
+     */
+    public function getSbyCpt($start, $end){
+    	return EntreeSortieDAL::findSbyCompteByTime($start, $end, $this->getId());
+    }
+    
+    /*
+     * Retourne le nombre de fois où un compte donné a été associé à une entrée sur une période de temps donnée
+     */
+    public function getEbyCpt($start, $end){
+    	return EntreeSortieDAL::findEbyCompteByTime($start, $end, $this->getId());
+    }
+   
+    
     /*
       ==============================
       ======= GETTER/SETTER ========

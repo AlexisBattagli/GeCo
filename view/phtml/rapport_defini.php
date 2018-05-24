@@ -16,6 +16,7 @@ ini_set('log_errors', 1);
 // Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
 ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/EntreeSortie.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/RapportDefini.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/controller/page/rapport_def_ctrl.php');
@@ -69,6 +70,7 @@ table {
 
 td {
 	color: #2e6da4;
+	font-size: 12px;
 	background: rgb(255, 255, 255); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
 		rgba(243, 243, 243, 1) 50%, rgba(237, 237, 237, 1) 51%,
@@ -85,6 +87,7 @@ td {
 }
 
 th {
+	font-size: 12px;
 	background: rgb(255, 255, 255); /* Old browsers */
 	background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
 		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
@@ -142,6 +145,36 @@ body {
 		</div>
 		
 		<div class="row">
+			<legend>Etat des Comptes au <?php echo $fin;?></legend>
+			<div class="col-lg-12">
+            	<table class="table table-bordered table-hover table-condensed">
+                	<thead>
+                    	<tr>
+                        	<th class="text-center">Banque</th>
+                           	<th class="text-center">Nom</th>
+                            <th class="text-center">Solde (€)</th>
+                            <th class="text-center">Informations</th>
+                            <th class="text-center">Numéro</th>
+                        </tr>
+                  	</thead>
+
+                    <tbody>
+                    <?php $comptes = CompteDAL::findAll();?>
+                    <?php foreach ($comptes as $compte): ?>
+                    	<tr>
+                        	<th class="text-center"><?php echo $compte->getBanque(); ?></th>
+                            <th class="text-center"><?php echo $compte->getLabel(); ?></th>
+                            <th class="text-center"><?php echo round($compte->getSolde(),2); ?></th>
+                            <th class="text-center"><?php echo $compte->getInformation(); ?></th>
+                            <th class="text-center"><?php echo $compte->getIdentifiant(); ?></th>
+                      	</tr>
+                    <?php endforeach; ?>
+                    </tbody>
+               	</table>
+          	</div>
+		</div>
+		
+		<div class="row">
 			<?php $entreesSorties = $rapportDef->getES();?>
 			<legend>Liste des Entrées et Sorties sur la période du <?php echo $debut;?> au <?php echo $fin;?></legend>
 			<div class="col-lg-12">
@@ -176,7 +209,7 @@ body {
                             <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getPayement()->getMoyen(); ?></td>
                             <td class="text-center" style="color:<?php echo $couleurES;?>"><?php echo $es->getLieu()->getVille()." (".$es->getLieu()->getPays().")"; ?></td>
                        <!-- <td class="text-center" style="color:<?php //echo $couleur;?>"> <a href=<?php // $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_es.php?idES=<?php //echo $es->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td>  --> <!-- Lien vers une page view qui affiche les détail (permet leur modif) -->
-                            <th class="text-center" style="color:<?php echo $couleurES;?>"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>&debut=<?php echo $debut; ?>&fin=<?php echo $fin; ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                            <th class="text-center" style="color:<?php echo $couleurES;?>"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_es.php?idES=<?php echo $es->getId(); ?>&debut=<?php echo $debut; ?>&fin=<?php echo $fin; ?>" target="_blank" class="btn btn-danger btn-sm active">Sup</a></th>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -213,7 +246,7 @@ body {
 							}
 					?>
 						<tr>
-							<td class="text-center" ><a style="color:<?php echo $couleurObj;?>" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/rapport_objet.php?idObjet=<?php echo $listObjets['id'][$i]; ?>?debut=<?php echo $debut; ?>?fin=<?php echo $fin; ?>"</a><?php echo $listObjets['label'][$i]; ?></td>
+							<td class="text-center" ><a style="color:<?php echo $couleurObj;?>" target="_blank" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/rapport_objet.php?idObjet=<?php echo $listObjets['id'][$i]; ?>&debut=<?php echo $debut; ?>&fin=<?php echo $fin; ?>"</a><?php echo $listObjets['label'][$i]; ?></td>
 							<td class="text-center"><?php echo $listObjets['nbS'][$i]; ?></td>
 							<td class="text-center"><?php echo $listObjets['nbE'][$i]; ?></td>
 							<td class="text-center"><span style="font-weight:bold"><?php echo $listObjets['totS'][$i]; ?></span> (<?php echo $listObjets['%S'][$i]; ?> %)</td>
@@ -243,7 +276,53 @@ body {
 				</table>
 			</div>
 		</div>
-	 
+	
+		<div class="row">
+			<?php $listComptes = RapportDefCtrl::calBilanComptes($flux, $debut, $fin); ?>
+			
+			<legend>Gain par Compte sur la période du <?php echo $debut;?> au <?php echo $fin;?></legend>
+			<div class="col-lg-12">
+				<table class="table table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th class="text-center">Compte</th>
+							<th class="text-center">Solde au <?php echo $fin;?> (€)</th>
+							<th class="text-center">Nombre de Sortie</th>
+							<th class="text-center">Nombre d'Entrée</th>
+							<th class="text-center">Sortie (€)</th>
+							<th class="text-center">Entrée (€)</th>
+							<th class="text-center">Gain (€)</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+					<?php 
+						$couleurCpt = 'red';
+						$nbCpt = count($listComptes['id']);
+						for ($i = 0; $i < $nbCpt; $i++): 
+							if($listComptes['gain'][$i]>=0){
+								$couleurCpt = 'green';
+							}else{
+								$couleurCpt = 'red';
+							}
+					?>
+						<tr>
+							<td class="text-center"><?php echo $listComptes['label'][$i]; ?></td>
+							<td class="text-center"><?php echo $listComptes['solde'][$i]; ?></td>
+							<td class="text-center"><?php echo $listComptes['nbS'][$i]; ?></td>
+							<td class="text-center"><?php echo $listComptes['nbE'][$i]; ?></td>
+							<td class="text-center"><span style="font-weight:bold"><?php echo $listComptes['totS'][$i]; ?></span> (<?php echo $listComptes['%S'][$i]; ?> %)</td>
+							<td class="text-center"><span style="font-weight:bold"><?php echo $listComptes['totE'][$i]; ?></span> (<?php echo $listComptes['%E'][$i]; ?> %)</td>
+							<td class="text-center" style="color:<?php echo $couleurCpt;?>"><?php echo $listComptes['gain'][$i]; ?></td>
+						</tr>
+					<?php  endfor; ?>
+					</tbody>
+					
+					<tfoot>
+					</tfoot>
+				</table>
+			</div>
+		</div>
 	
 	</div>
 </body>

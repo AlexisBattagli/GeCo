@@ -140,9 +140,9 @@ class SoldeDAL {
     }
     
     /*
-     * Retourne l'ensemble des solde compris entre la date indiquée et la date actuel, pour un compte donnée
+     * Retourne l'ensemble des solde compris entre le mois suivant de la date actuelle et la date actuelle, pour un compte donnée
      */
-    public static function findByIntervalDate($date, $compteId)
+    public static function findByIntervalDateSup($date, $compteId)
     {
     	$mesSoldes = array();
     	
@@ -151,7 +151,7 @@ class SoldeDAL {
     			. 'solde.valeur as valeur, '
     			. 'solde.date as date '
     			. ' FROM solde '
-    			. ' WHERE solde.compte_id = ? AND solde.date BETWEEN ? AND NOW()', array('is', &$compteId,&$date));
+    			. ' WHERE solde.compte_id = ? AND DATE_FORMAT(solde.date, "%Y-%m") > DATE_FORMAT(?, "%Y-%m")', array('is', &$compteId,&$date));
 
     	foreach ($data as $row)
     	{
@@ -160,6 +160,30 @@ class SoldeDAL {
     		$mesSoldes[] = $solde;
     	}
     	
+    	return $mesSoldes;
+    }
+    
+    /*
+     * Retourne l'ensemble des solde compris entre la date indiquée et la date actuelle sans regarder le jour, pour un compte donnée
+     */
+    public static function findByIntervalDateMoisSupEq($date, $compteId)
+    {
+    	$mesSoldes = array();
+    	 
+    	$data = BaseSingleton::select('SELECT solde.id as id, '
+    			. 'solde.compte_id as compte_id, '
+    			. 'solde.valeur as valeur, '
+    			. 'solde.date as date '
+    			. ' FROM solde '
+    			. ' WHERE solde.compte_id = ? AND DATE_FORMAT(solde.date, "%Y-%m") >= DATE_FORMAT(?, "%Y-%m")', array('is', &$compteId,&$date));
+    
+    	foreach ($data as $row)
+    	{
+    		$solde = new Solde();
+    		$solde->hydrate($row);
+    		$mesSoldes[] = $solde;
+    	}
+    	 
     	return $mesSoldes;
     }
     

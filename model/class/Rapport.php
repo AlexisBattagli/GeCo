@@ -38,7 +38,8 @@ class Rapport {
 	 * Liste des transferts du rapport
 	 * @var EntreeSortie[]
 	 */
-	private $transferts;	
+	private $transferts;
+	
 	
     /*
      * Nombre de Sortie
@@ -92,13 +93,13 @@ class Rapport {
      * Constructeur par défaut
      */
     public function Rapport($flux = array()){
-    	echo "[DEBUG] Commence la création de l'objet rapport, à partir du tableau d'entrée sortie.</br>";
+    	//echo "[DEBUG] Commence la création de l'objet rapport, à partir du tableau d'entrée sortie.</br>";
     	
     	$this->entreesSorties = $this->listEntreesSorties($flux); 
-    	echo "[DEBUG] Il y a ".count($this->getEntreesSorties())." es dans ce rapport.</br>";
+    	//echo "[DEBUG] Il y a ".count($this->getEntreesSorties())." es dans ce rapport.</br>";
     	
     	$this->transferts = $this->listTransferts($flux); 
-    	echo "[DEBUG] Il y a ".count($this->getTransferts())." transferts dans ce rapport.</br>";
+    	//echo "[DEBUG] Il y a ".count($this->getTransferts())." transferts dans ce rapport.</br>";
     	
     	$this->nbSortie = $this->calNbSortie();
     	$this->nbEntree = $this->calNbEntree();
@@ -113,7 +114,7 @@ class Rapport {
     		$this->moySortie = 0;
     		echo "[ERROR] Nombre de sortie vaut ".$this->getNbSortie().", or le total de sortie est de ".$this->getTotSortie()." € ! </br>";
     	}
-    	echo "[DEBUG] La moyenne des sorties est de ".$this->getMoySortie()." €</br>";
+    	//echo "[DEBUG] La moyenne des sorties est de ".$this->getMoySortie()." €</br>";
     	
     	if($this->getNbEntree()>0){
     		$this->moyEntree = round($this->getTotEntree() / $this->getNbEntree(), 2); // arrondi à deux décimales
@@ -123,10 +124,10 @@ class Rapport {
     		$this->moyEntree = 0;
     		echo "[ERROR] Nombre d'entrée vaut ".$this->getNbEntree().", or le total de sortie est de ".$this->getTotEntree()." € ! </br>";
     	}
-    	echo "[DEBUG] La moyenne des entrées est de ".$this->getMoyEntree()." €</br>";
+    	//echo "[DEBUG] La moyenne des entrées est de ".$this->getMoyEntree()." €</br>";
   
     	$this->gain = $this->getTotEntree() - $this->getTotSortie();
-    	echo "[DEBUG] Le gain est de ".$this->getGain()." €</br>";
+    	//echo "[DEBUG] Le gain est de ".$this->getGain()." €</br>";
     	
     }
 /* 
@@ -134,6 +135,7 @@ class Rapport {
    ========== METHODES ==========
    ============================== 
 */
+    
     
     /*
      * Recupère les flux d'argent qui sont uniquement des transfert
@@ -171,7 +173,7 @@ class Rapport {
     			$nbS++;
     		}
     	}
-    	echo "[DEBUG] On a ".$nbS." sortie(s).</br>";
+    	//echo "[DEBUG] On a ".$nbS." sortie(s).</br>";
     	return $nbS;
     }
     
@@ -185,7 +187,7 @@ class Rapport {
     			$nbE++;
     		}
     	}
-    	echo "[DEBUG] On a ".$nbE." entrée(s).</br>";
+    	//echo "[DEBUG] On a ".$nbE." entrée(s).</br>";
     	return $nbE;
     }
     
@@ -201,7 +203,7 @@ class Rapport {
     			$totS += $es->getValeur(); 
     		}
     	}
-    	echo "[DEBUG] La somme des sorties est de ".$totS." €.</br>";
+    	//echo "[DEBUG] La somme des sorties est de ".$totS." €.</br>";
     	return $totS;
     }
     
@@ -217,7 +219,7 @@ class Rapport {
     			$totE += $es->getValeur();
     		}
     	}
-    	echo "[DEBUG] La somme des entrées est de ".$totE." €.</br>";
+    	//echo "[DEBUG] La somme des entrées est de ".$totE." €.</br>";
     	return $totE;
     }
     
@@ -226,6 +228,8 @@ class Rapport {
    ======= GETTER/SETTER ========
    ============================== 
 */ 
+   
+    
     
    /*
     * nbSortie

@@ -75,12 +75,19 @@ $compte = $es->getCompte();
 echo "[DEBUG] Le compte rattaché à cette ES est ".$compte->getLabel().".</br>";
 
 //Récupère les soldes du compte impactés par l'ES (SELECT Solde)
-
+$soldesMod = SoldeDAL::findByIntervalDateMoisSupEq($dateES, $compte->getId());
 
 //Met à jour chaque solde de ce compte (UPDATE Solde)
+foreach ($soldesMod as $solde){
+	$oldValeur = $solde->getValeur();
+	$newValeur = $oldValeur - $valeurES;
+	$solde->setValeur($newValeur);
+	echo "[DEBUG] Modification du solde de ".$solde->getDate()." qui était de ".$oldValeur."€ et qui maintenant est de ".$oldValeur." - (".$valeurES.") = ".$solde->getValeur()."€ .</br>";
+	SoldeDAL::insertOnDuplicate($solde);
+}
 
 //Supprime l'ES en base (DELETE EntreeSortie
-
+EntreeSortieDAL::delete($es->getId());
 
 
 ?>
