@@ -162,11 +162,11 @@ body {
                     <?php $comptes = CompteDAL::findAll();?>
                     <?php foreach ($comptes as $compte): ?>
                     	<tr>
-                        	<th class="text-center"><?php echo $compte->getBanque(); ?></th>
-                            <th class="text-center"><?php echo $compte->getLabel(); ?></th>
-                            <th class="text-center"><?php echo round($compte->getSolde(),2); ?></th>
-                            <th class="text-center"><?php echo $compte->getInformation(); ?></th>
-                            <th class="text-center"><?php echo $compte->getIdentifiant(); ?></th>
+                        	<td class="text-center"><?php echo $compte->getBanque(); ?></th>
+                            <td class="text-center"><?php echo $compte->getLabel(); ?></th>
+                            <td class="text-center"><?php echo round($compte->getSoldeTo($fin),2); ?></th>
+                            <td class="text-center"><?php echo $compte->getInformation(); ?></th>
+                            <td class="text-center"><?php echo $compte->getIdentifiant(); ?></th>
                       	</tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -280,7 +280,7 @@ body {
 		<div class="row">
 			<?php $listComptes = RapportDefCtrl::calBilanComptes($flux, $debut, $fin); ?>
 			
-			<legend>Gain par Compte sur la période du <?php echo $debut;?> au <?php echo $fin;?></legend>
+			<legend>Gain par Compte sur la période du <?php echo $debut;?> au <?php echo $fin;?> (avec Transfert)</legend>
 			<div class="col-lg-12">
 				<table class="table table-bordered table-hover table-condensed">
 					<thead>

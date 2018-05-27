@@ -160,16 +160,16 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/model/class/Compte.php');
                         <tbody>
                             <?php foreach ($comptes as $compte): ?>
                                 <tr>
-                                    <th class="text-center"><?php echo $compte->getBanque(); ?></th>
-                                    <th class="text-center"><?php echo $compte->getLabel(); ?></th>
-                                    <th class="text-center"><?php echo round($compte->getSolde(),2); ?></th>
-                                    <th class="text-center"><?php echo $compte->getInformation(); ?></th>
-                                    <th class="text-center"><?php echo $compte->getIdentifiant(); ?></th>
-                                    <th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unCompte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></th>
+                                    <td class="text-center"><?php echo $compte->getBanque(); ?></td>
+                                    <td class="text-center"><?php echo $compte->getLabel(); ?></td>
+                                    <td class="text-center"><?php echo round($compte->getSolde(),2); ?></td>
+                                    <td class="text-center"><?php echo $compte->getInformation(); ?></td>
+                                    <td class="text-center"><?php echo $compte->getIdentifiant(); ?></td>
+                                    <td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/phtml/mod_unCompte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-primary btn-sm active">Mod</a></td>
                                     <?php if($compte->isDeletable()) {?>
-                                    	<th class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_compte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></th>
+                                    	<td class="text-center"><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/controller/page/sup_compte.php?idCompte=<?php echo $compte->getId(); ?>" class="btn btn-danger btn-sm active">Sup</a></td>
                                		<?php } else {?>
-                               		    <th class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></th>
+                               		    <td class="text-center"><a href="#" class="btn btn-danger btn-sm disabled">Sup</a></td>
                                		<?php }?>
                                 </tr>
                             <?php endforeach; ?>

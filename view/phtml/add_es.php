@@ -36,6 +36,15 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
 <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/javascript/add_es.js"></script>
 
 <style type="text/css">
+
+input{
+	color: DodgerBlue;
+}
+
+select{
+	color: DodgerBlue;
+}
+
 table {
 	border-radius: 6px;
 	box-shadow: 1px 1px 2px grey;

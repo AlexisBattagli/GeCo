@@ -74,7 +74,7 @@ class RapportDefCtrl {
 		
 				array_push($listEtatCpt['id'], $cpt->getId());
 				array_push($listEtatCpt['label'], $cpt->getLabel());
-				array_push($listEtatCpt['solde'], $cpt->getSolde()); 
+				array_push($listEtatCpt['solde'], $cpt->getSoldeTo($dateFin)); 
 				array_push($listEtatCpt['nbS'], count($listSbyCpt));
 				array_push($listEtatCpt['nbE'], count($listEbyCpt));
 				array_push($listEtatCpt['totS'], $totCptS);

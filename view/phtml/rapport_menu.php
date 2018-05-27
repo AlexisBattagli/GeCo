@@ -34,6 +34,16 @@ require_once ($_SERVER ['DOCUMENT_ROOT'] . '/controller/page/rapport_menu_ctrl.p
 <script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/view/javascript/rapport_menu.js"></script>
 
 <style type="text/css">
+
+input{
+	color: DodgerBlue;
+}
+
+select{
+	color: DodgerBlue;
+}
+
+
 table {
 	border-radius: 6px;
 	box-shadow: 1px 1px 2px grey;

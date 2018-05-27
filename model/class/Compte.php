@@ -151,12 +151,34 @@ class Compte {
         if (is_null($solde))
         {
             $valeur = null;
+            echo "[ERROR] Le solde du compte ".$this->getLabel()." n'a pas été trouvé à la date actuel.</br>";
         }
         else
         {
             $valeur = $solde->getValeur();
         }
         return $valeur;
+    }
+    
+    /*
+     * Méthode qui retourne le solde à une date donnée
+     * 
+     * @return double
+     */
+    public function getSOldeTo($date){
+    	$valeur = 0;
+    	$idCompte = $this->getId();
+    	$solde= SoldeDAL::findOldLast($date, $idCompte);
+    	if (is_null($solde))
+    	{
+    		$valeur = null;
+    		echo "[ERROR] Le solde du compte ".$this->getLabel()." n'a pas été trouvé à la date du ".$date.".</br>";
+    	}
+    	else
+    	{
+    		$valeur = $solde->getValeur();
+    	}
+    	return $valeur;
     }
 
    
