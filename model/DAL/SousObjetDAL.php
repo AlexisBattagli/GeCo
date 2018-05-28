@@ -42,7 +42,7 @@ class SousObjetDAL {
     }
     
     /*
-     * Retourne les SousObjet correspondant à l'objet donnée
+     * Retourne les SousObjet correspondant à l'objet donnée par ordre alphabétique
      *
      * @param int $idObjet Identifiant du sousObjet à trouver
      * @return SousObjet[]

@@ -241,6 +241,18 @@ class EntreeSortie {
     }
     
     /*
+     * Retourne la valeur de l'ES en fonction de son type E ou S
+     * Si c'est une S, alors renvoie la valeur négative, sinon positive.
+     */
+    public function trueValeur(){
+    	$trueVal = $this->getValeur();
+    	if($this->isS()){
+    		$trueVal = 0 - $trueVal;
+    	}
+    	return $trueVal;
+    }
+    
+    /*
       ==============================
       ======= GETTER/SETTER ========
       ==============================

@@ -126,28 +126,6 @@ class ObjetDAL {
     }
     
     /*
-     * Return l'Objet par défaut d'ID 1
-     * 
-     * @return Objet
-     */
-  /*  public static function findDefaultObjet()
-    {
-        $defaultId = 1;
-        $data = BaseSingleton::select('SELECT objet.id as id, '
-                        . 'objet.label as label, '
-                        . 'objet.description as description '
-                        . ' FROM objet'
-                        . ' WHERE objet.id = ?', array('i', &$defaultId));
-        $objet = new Objet();
-
-        if (sizeof($data) > 0)
-        {
-            $objet->hydrate($data[0]);
-        }
-        return $objet;
-    }*/ //On n'utilise pas dde default objet en base de donnée, mais un objet d'id=-1
-    
-    /*
      * Insère ou met à jour l'objet donnée en paramètre.
      * Pour cela on vérifie si l'id de l'objet transmis est sup ou inf à 0.
      * Si l'id est inf à 0 alors il faut insèrer, sinon update à l'id transmis.

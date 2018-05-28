@@ -21,6 +21,7 @@ ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/EntreeSortieDAL.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/BudgetDAL.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
 
 class Objet {
     
@@ -146,6 +147,13 @@ class Objet {
      */
     public function getEbyObjet($start, $end){
     	return EntreeSortieDAL::findEbyObjetByTime($start, $end, $this->getId());
+    }
+    
+    /*
+     * Retourne la liste des Sous-Objet, array() vide si n'en a pas
+     */
+    public function listSousObjets(){
+    	return SousObjetDAL::findByObjet($this->getId());
     }
     
     
