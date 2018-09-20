@@ -124,7 +124,7 @@ class SoldeDAL {
     			. 'solde.valeur as valeur, '
     			. 'solde.date as date '
     			. ' FROM solde '
-    			. ' WHERE solde.compte_id = ? AND date < ? '
+    			. ' WHERE solde.compte_id = ? AND date <= ? '
     			. ' ORDER BY YEAR(date) DESC, MONTH(date) DESC', array('is', &$compteId, &$date));
 
     	$solde = new Solde();

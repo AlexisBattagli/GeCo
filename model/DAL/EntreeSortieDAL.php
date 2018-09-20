@@ -161,6 +161,40 @@ class EntreeSortieDAL {
     }
     
     /*
+     * Retourne un tableau d'ES liées à un objet défini par son ID sur un temps donné
+     *
+     * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau
+     */
+    public static function findByObjetByTime($objetId, $debut, $fin){
+    
+    	$mesES = array();
+    
+    	$data = BaseSingleton::select('SELECT entree_sortie.id as id, '
+    			. 'entree_sortie.valeur as valeur, '
+    			. 'entree_sortie.es as es, '
+    			. 'entree_sortie.information as information, '
+    			. 'entree_sortie.date as date, '
+    			. 'entree_sortie.lieu_id as lieu_id, '
+    			. 'entree_sortie.objet_id as objet_id, '
+    			. 'entree_sortie.compte_id as compte_id, '
+    			. 'entree_sortie.etiquette_id as etiquette_id, '
+    			. 'entree_sortie.sous_objet_id as sous_objet_id, '
+    			. 'entree_sortie.payement_id as payement_id '
+    			. ' FROM entree_sortie'
+    			. ' WHERE entree_sortie.objet_id = ?'
+    			. ' AND entree_sortie.date BETWEEN ? AND ?', array('iss', &$objetId, &$debut, &$fin));
+    
+    	foreach ($data as $row)
+    	{
+    		$entreeSortie = new EntreeSortie();
+    		$entreeSortie->hydrate($row);
+    		$mesES[] = $entreeSortie;
+    	}
+    
+    	return $mesES;
+    }
+    
+    /*
      * Retourne un tableau de Sortie liées à un compte défini par son ID sur un temps donné
      *
      * @return array[EntreeSortie] Toutes les ES sont placées dans un Tableau

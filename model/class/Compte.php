@@ -165,7 +165,7 @@ class Compte {
      * 
      * @return double
      */
-    public function getSOldeTo($date){
+    public function getSoldeTo($date){
     	$valeur = 0;
     	$idCompte = $this->getId();
     	$solde= SoldeDAL::findOldLast($date, $idCompte);
