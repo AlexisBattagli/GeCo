@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- 
+- Page de formulaire de Recherche des ES
+- 
+- @author Alexis BATTAGLI
+- @version 0.1
+- 
+- Permet de séléctionner des critère de recherches quasi-similaire à ceux de l'ajout d'une ES, afin de réaliser une recherche sur une période donnée uniquement sur des type d'ES voulu.
+- Doit permettre de sortie une liste des ES répondant aux critères de la recherches
+-->
+
+<?php
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/CompteDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/EtiquetteDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/LieuDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/ObjetDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/PayementDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/SoldeDAL.php');
+require_once($_SERVER ['DOCUMENT_ROOT'] . '/model/DAL/SousObjetDAL.php');
+?>
+
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Recherche d'ES</title>
+
+		<link rel="stylesheet" type="text/css" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/css/bootstrap-theme.min.css"> 
+
+		<script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/bootstrap.js"></script>
+		<script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/dropdown.js"></script>
+		<script src=<?php $_SERVER['DOCUMENT_ROOT'] ?>"/bootstrap/js/jquery-1.11.3.js"></script>
+
+		<style type="text/css">
+			input{
+			 color: DodgerBlue;
+			}
+
+			select{
+		         color: DodgerBlue;
+			}
+
+			table {
+        		 border-radius: 6px;
+        		 box-shadow: 1px 1px 2px grey;
+			}
+
+			td {
+        	 	 color: #2e6da4;
+			 background: rgb(255, 255, 255); /* Old browsers */
+        		 background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+                		rgba(243, 243, 243, 1) 50%, rgba(237, 237, 237, 1) 51%,
+                		rgba(255, 255, 255, 1) 100%); /* FF3.6-15 */
+        		 background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+                		rgba(243, 243, 243, 1) 50%, rgba(237, 237, 237, 1) 51%,
+                		rgba(255, 255, 255, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+        		 background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+                		rgba(243, 243, 243, 1) 50%, rgba(237, 237, 237, 1) 51%,
+                		rgba(255, 255, 255, 1) 100%);
+        		/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff',
+                		endColorstr='#ffffff', GradientType=0); /* IE6-9 */
+			}
+
+			th {
+        		 background: rgb(255, 255, 255); /* Old browsers */
+        		 background: -moz-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+                		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
+                		rgba(246, 246, 246, 1) 100%); /* FF3.6-15 */
+        		 background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,
+                		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
+                		rgba(246, 246, 246, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+        		 background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%,
+                		rgba(241, 241, 241, 1) 50%, rgba(225, 225, 225, 1) 51%,
+                		rgba(246, 246, 246, 1) 100%);
+        		 /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        		 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff',
+                		endColorstr='#f6f6f6', GradientType=0); /* IE6-9 */
+			}
+
+			legend {
+        		 color: #428BCA; /* Old browsers */
+			}
+
+			body {
+        		 font-family: initial;
+			}
+			
+			blockquote {
+        		 background-color: #fffeee;
+        		 border-radius: 12px;
+        		 border: 2px #eee dotted;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!-- NAV BAR -->
+		<div class="container">
+               		<div class="row">
+                       		<div class="col-lg-12">
+                               		<nav class="navbar navbar-default navbar-static-top" role="navigation">
+                                       		<div class="container">
+                                               		<div class="navbar-header">
+                                                       		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarCollapse"></button>
+                                                       		<span class="navbar-brand">Gestionnaire de Compte 2.0</span>
+                                               		</div>
+                                               	<div class="collapse navbar-collapse" id="navbarCollapse">
+                                                       	<ul class="nav navbar-nav">
+                                                               	<li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?> "/view/phtml/home.php" class="btn btn-default btn-sm">Home</a></li>
+                                                               	<li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?> "/view/phtml/info_gen.php" class="btn btn-default btn-sm" target="_blank">Informations Générales</a></li>
+                                                               	<li><a href=<?php $_SERVER['DOCUMENT_ROOT'] ?> "/view/phtml/liens_utiles.php" class="btn btn-default btn-sm" target="_blank">Liens utiles</a></li>
+                                                       	</ul>
+                                               	</div>
+                                       	</div>
+                               	</nav>
+                       	</div>
+               	</div>
+		
+		<!-- FORM -->
+		<form action=<?php $_SERVER['DOCUMENT_ROOT'] ?> "/controller/page/search_es.php" method="POST" target="_blank">
+			<legend>Formulaire de Recherche des Entrées et/ou Sorties</legend>
+			<div class="row">
+                        	<div class="col-lg-12">
+                                	<h4>~ Informations générales:</h4>
+
+                                        <!-- Date -->
+                                        <div class='col-lg-6'>
+                                                <label for='date_debut' class='control-label'>Début de la plage de Recherche* : </label>
+                                                <input type='date' name='date_debut' id='date_debut' pattern="(20[0-9][0-9])\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])" placeholder='<?php echo date('Y-m-d');?>' value='<?php echo date('Y-m-d');?>' required></input>
+                                        </div>
+
+                                        <div class='col-lg-6'>
+                                                <label for='date_fin' class='control-label'>Fin de la plage de Recherche* : </label>
+                                                <input type='date' name='date_fin' id='date_fin' pattern="(20[0-9][0-9])\-(0[1-9]|1[0-2])\-(0[1-9]|[1-2][0-9]|3[0-1])" placeholder='<?php echo date('Y-m-d');?>' value='<?php echo date('Y-m-d');?>' required></input>
+                                        </div>
+				</div>	
+			</div>	
+			
+			</br>
+
+			<div class="row">
+                        	<div class="col-lg-12">
+					<!-- Valeur -->
+                                        <div class='col-lg-6'>
+                                                <label for='valeur_min' class='control-label' title="Laisser vide pour ignorer">Somme minimal (€) : </label>
+                                                <input name='valeur_min' id='valeur_min' type='number' step='0.01' min='0' placeholder='0,00 €' size="5" title="Être sûr que cette valeur est inférieur à la Somme Max"></input> €
+                                        </div>
+
+                                        <div class='col-lg-6'>
+                                                <label for='valeur_max' class='control-label' title="Laisser vide pour ignorer">Somme maximal (€) : </label>
+                                                <input name='valeur_max' id='valeur_max' type='number' step='0.01' min='0' placeholder='0,00 €' size="5" title="Être sûr que cette valeur est supérieur à la Somme Min"></input> €
+                                        </div>
+                                </div>
+			</div>			
+
+			</br>
+
+			<div class="row">
+                                <div class="col-lg-12">
+
+					<!-- Type de flux -->	
+                                        <div class='col-lg-4'>
+                                                <label for='es' class='control-label'>Sortie/Entrée* : </label>
+                                                <select name='es' id='es'>
+                                                        <option value='All'>Entrée et Sortie</option>
+                                                        <option value='S'>Sortie</option>
+                                                        <option value='E'>Entrée</option>
+                                                </select>
+					</div>
+
+					<!-- Lieu -->
+					<?php $lieux = LieuDAL::findAll(); ?>
+                                        <div class='col-lg-8'>
+						<label for='lieu_id' class='control-label'>Lieu* : </label>
+						</br>
+						<select name='lieu_id' id='lieu_id' size="10" multiple required>
+							<option type="checkbox" value="All" name="lieu_id" checked>Toutes les villes</option>
+							<?php foreach ($lieux as $lieu): ?>
+								<option type="checkbox" value="<?php echo $lieu->getId();?>" name="lieu_id"><?php echo $lieu->getVille()." (".$lieu->getPays().")";?></option>
+							<?php endforeach;?>
+						</select>
+                                        </div>		
+
+				</div>
+			</div>
+
+			</br>
+                        </br>
+
+                        <div class="row">
+                                <div class="col-lg-12">
+					<h4>~ Objet:</h4>
+
+					<!-- Liste les Objets -->
+		                        <?php $objets = ObjetDAL::findAllUsabled(); ?>
+                		        <div class='col-lg-10'>
+                                                <label for='objet_id' class='control-label'>Objet* : </label>
+						</br>
+						<select name='objet_id' id='objet_id' size="10" multiple required>
+							<option type="checkbox" value="All" name="objet_id">Tous les Objets</option>
+							<?php foreach ($objets as $objet): ?>
+                                				<option  type="checkbox" value='<?php echo $objet->getId();?>' name="objet_id"><?php echo $objet->getLabel()." (".$objet->getDescription().")";?></option>
+                                    			<?php endforeach; ?>
+                                		</select>
+                                        </div>
+				</div>
+			</div>
+
+
+		</form>
+	</body>
+</html>
+
