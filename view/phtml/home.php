@@ -185,7 +185,7 @@
                             </a>
                         </div>     
                         <div class="col-lg-4">
-                            <a href="#" class="list-group-item">
+                            <a href="./recherche_form.php" class="list-group-item">
                                 <h4 class="list-group-item-heading">Recherche</h4>
                                 <p class="list-group-item-text">Lancer une recherche d'ES sur une période voulu.</br>
                                     La recherche est affinable via différents filtres.
