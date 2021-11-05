@@ -4,16 +4,42 @@
 - 
 - @author Alexis BATTAGLI
 - @version 0.1
+- @version 0.2
+- 	@date 5 novembre 2021
+-       Ajout de l'état des comptes (création du controller de la page home: /controller/page/home_ctrl)
 - 
-- Doit afficher,
-- dans un tableau Etat des compte avec un comparatif de chacun sur les 2 dernier mois
-- les 5 dernière entrée du mois en cours
-- les 5 dernière sorties du mois en cours
-- dans un tableau l'Etat d'avancemùent du Budget défini pour le mois en cours
-- dans une  v0.2 il devra avoir un volet ouvrable sur le coté gauche afin d'afficher les tendances
-- sur chaque compte (sous forme d'histogramme)  depuis 2 mois (un histo pour chaque compte
+- @descritpion
+-  Doit afficher,
+-  dans un tableau Etat des compte avec un comparatif de chacun sur les 2 dernier mois
+-  les 5 dernière entrée du mois en cours
+-  les 5 dernière sorties du mois en cours
+-  dans un tableau l'Etat d'avancemùent du Budget défini pour le mois en cours
+-  dans une  v0.2 il devra avoir un volet ouvrable sur le coté gauche afin d'afficher les tendances
+-  sur chaque compte (sous forme d'histogramme)  depuis 2 mois (un histo pour chaque compte
 - 
 -->
+
+<?php
+// Afficher les erreurs à l'écran
+ini_set('display_errors', 1);
+// Enregistrer les erreurs dans un fichier de log
+ini_set('log_errors', 1);
+// Nom du fichier qui enregistre les logs (attention aux droits à l'écriture)
+ini_set('error_log', dirname(__file__) . '/log_error_php.txt');
+
+require_once($_SERVER['DOCUMENT_ROOT'] . '/controller/page/home_ctrl.php');
+
+//Récupère l'état des comptes sous la forme d'un tableau (cf /controller/page/home_ctrl)
+$etatComptes = HomeCtrl::getEtatComptes();
+//Récupère les statistique d'ES du mois en cours (cf /controller/page/home_ctrl)
+$statCurrentMonth = HomeCtrl::getStatCurrentMonth();
+// Récupère les 5 dernières Sorties du mois en cours
+$lastE = HomeCtrl::getLastEntreeSortie(5,'e');
+// Récupère les 5 dernières Entrées du mois en cours
+$lastS = HomeCtrl::getLastEntreeSortie(5,'s');
+
+?>
+
 <html lang="fr">
     <head>
         <meta charset="UTF-8">

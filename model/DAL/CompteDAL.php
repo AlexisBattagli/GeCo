@@ -49,7 +49,6 @@ class CompteDAL extends Compte {
      * 
      * @return array[Compte] Tous les compte sont placés dans un Tableau
      */
-
     public static function findAll()
     {
         $mesComptes = array();
@@ -72,6 +71,35 @@ class CompteDAL extends Compte {
         return $mesComptes;
     }
 
+
+    /*
+     * Retourne l'ensemble des Comptes Actifs
+     * C'est-à-dire les comptes dont le label NE commence PAS par 'OLD'
+     * @return array[Compte]
+     */
+    public static function findAllActif()
+    {
+	$mesComptesActifs = array();
+	
+	$data = BaseSingleton::select('SELECT compte.id as id, '
+		. 'compte.label as label, '
+                . 'compte.banque as banque, '
+                . 'compte.information as information, '
+                . 'compte.identifiant as identifiant'
+                . ' FROM compte '
+		. ' WHERE compte.label not REGEXP "^OLD" '
+		. ' ORDER BY compte.banque ASC, compte.label ASC');
+	foreach ($data as $row)
+	{
+	    $compte = new Compte();
+            $compte->hydrate($row);
+            $mesComptesActifs[] = $compte;
+	}
+
+	return $mesComptesActifs;
+    }
+
+
     /*
      * Retourne le compte correspondant au couple Label/Banque
      * Ce couple étant unique, il n'y qu'une seul ligne retourner.
@@ -80,7 +108,6 @@ class CompteDAL extends Compte {
      * @param string label, string banque
      * @return Compte
      */
-
     public static function findByLB($label, $banque)
     {
         $data = BaseSingleton::select('SELECT compte.id as id, '
