@@ -225,38 +225,60 @@ $lastS = HomeCtrl::getLastEntreeSortie(5,'s');
             <div class="row">
                 <div class="col-lg-12">
                     </br>
-                    <legend>Etat des Comptes:</legend>
+		    <legend>Etat des Comptes:</legend>
+			<?php $currentMonth = date('m'); $currentYear = date('Y'); ?>
                     <table class="table table-bordered table-hover table-condensed">
                         <thead>
                             <tr>
                                 <th class="text-center">Nom</th>
                                 <th class="text-center">Actuellement</th>
-                                <th class="text-center">Fin Octobre 2015</th>
-                                <th class="text-center">Fin Septembre 2015</th>
+				<th class="text-center"><?php echo "Fin ".date("M Y", mktime(0, 0, 0, $currentMonth, 0, $currentYear))." (1 mois)";?></th>
+				<th class="text-center"><?php echo "Fin ".date("M Y", mktime(0, 0, 0, $currentMonth-1, 0, $currentYear))." (2 mois)";?></th>
+				<th class="text-center"><?php echo "Fin ".date("M Y", mktime(0, 0, 0, $currentMonth-5, 0, $currentYear))." (6 mois)";?></th>
+				<th class="text-center"><?php echo "Fin ".date("M Y", mktime(0, 0, 0, $currentMonth-11, 0, $currentYear))." (12 mois)";?></th>
                             </tr>
                         </thead>
 
-                        <tbody>
-                            <tr>
-                                <td class="text-center"><a href="#" class="btn btn-primary btn-sm btn-block">ESPECE</a></td>
-                                <td class="text-center">122,35 €</td>
-                                <td class="text-center">133.25 € <a href="#" class="btn btn-danger btn-sm active">(-10.08)</a></td>
-                                <td class="text-center">110.37 € <a href="#" class="btn btn-success btn-sm active">(+12.16)</a></td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-center"><a href="#" class="btn btn-primary btn-sm btn-block">LIVRET_A</a></td>
-                                <td class="text-center">13 800.00 €</td>
-                                <td class="text-center">14 000.00 € <a href="#" class="btn btn-danger btn-sm active">(-200.00)</a></td>
-                                <td class="text-center">13 568.15 € <a href="#" class="btn btn-success btn-sm active">(+432.85)</a></td>
-                            </tr>
-
-                            <tr>
-                                <td class="text-center"><a href="#" class="btn btn-primary btn-sm btn-block">CPT_DEPOT_PART</a></td>
-                                <td class="text-center">230.86 €</td>
-                                <td class="text-center">138.56 € <a href="#" class="btn btn-success btn-sm active">(+92.35)</a></td>
-                                <td class="text-center">192.56 € <a href="#" class="btn btn-success btn-sm active">(+37.86)</a></td>
-                            </tr>
+			<tbody>
+			<?php 	     
+			  $nbCompte = count($etatComptes['id']);
+			  $totalActuel=0; $totalM1=0; $totalM2=0; $totalM6=0; $totalM12=0;
+			  $diffTotM1=0; $diffTotM2=0; $diffTotM6=0; $diffTotM12=0;
+			  for ($i = 0; $i < $nbCompte; $i++):
+				$signeM1="+"; if ($etatComptes['diffM1'][$i] > 0){ $classM1 = "btn-success";} elseif ($etatComptes['diffM1'][$i] == 0) { $classM1 = "btn-secondary"; } else { $classM1 = "btn-danger"; $signeM1="";}
+				$signeM2="+"; if ($etatComptes['diffM2'][$i] > 0){ $classM2 = "btn-success";} elseif ($etatComptes['diffM2'][$i] == 0) { $classM2 = "btn-secondary"; } else { $classM2 = "btn-danger"; $signeM2="";}
+				$signeM6="+"; if ($etatComptes['diffM6'][$i] > 0){ $classM6 = "btn-success";} elseif ($etatComptes['diffM6'][$i] == 0) { $classM6 = "btn-secondary"; } else { $classM6 = "btn-danger"; $signeM6="";}
+				$signeM12="+"; if ($etatComptes['diffM12'][$i] > 0){ $classM12 = "btn-success";} elseif ($etatComptes['diffM12'][$i] == 0) { $classM12 = "btn-secondary"; } else { $classM12 = "btn-danger"; $signeM12="";}
+				
+			  	$totalActuel += $etatComptes['solde'][$i];
+				$totalM1 += $etatComptes['soldeM1'][$i]; $diffTotM1 += $etatComptes['diffM1'][$i]; 
+				$totalM2 += $etatComptes['soldeM2'][$i]; $diffTotM2 += $etatComptes['diffM2'][$i];
+				$totalM6 += $etatComptes['soldeM6'][$i]; $diffTotM6 += $etatComptes['diffM6'][$i];
+				$totalM12 += $etatComptes['soldeM12'][$i]; $diffTotM12 += $etatComptes['diffM12'][$i];
+			?>
+			    <tr>
+			    <td class="text-center"><a href="#" class="btn btn-primary btn-sm btn-block"><?php echo $etatComptes['label'][$i]; ?></a></td>
+                                <td class="text-center"><?php echo number_format($etatComptes['solde'][$i],2,',',' ')." € "; ?></td>
+				<td class="text-center"><?php echo number_format($etatComptes['soldeM1'][$i],2,',',' ')." € "; ?><a href="#" class="btn <?php echo $classM1; ?> btn-sm active"><?php echo "(".$signeM1.number_format($etatComptes['diffM1'][$i],2,',',' ').")"; ?></a></td>
+                                <td class="text-center"><?php echo number_format($etatComptes['soldeM2'][$i],2,',',' ')." € "; ?><a href="#" class="btn <?php echo $classM2; ?> btn-sm active"><?php echo "(".$signeM2.number_format($etatComptes['diffM2'][$i],2,',',' ').")"; ?></a></td>
+                                <td class="text-center"><?php echo number_format($etatComptes['soldeM6'][$i],2,',',' ')." € "; ?><a href="#" class="btn <?php echo $classM6; ?> btn-sm active"><?php echo "(".$signeM6.number_format($etatComptes['diffM6'][$i],2,',',' ').")"; ?></a></td>
+                                <td class="text-center"><?php echo number_format($etatComptes['soldeM12'][$i],2,',',' ')." € "; ?><a href="#" class="btn <?php echo $classM12; ?> btn-sm active"><?php echo "(".$signeM12.number_format($etatComptes['diffM12'][$i],2,',',' ').")"; ?></a></td>
+			     </tr>
+			<?php endfor;?>
+			<?php
+				$signeTotM1="+"; if ($diffTotM1 > 0){ $classTotM1 = "btn-success";} elseif ($diffTotM1 == 0){$classTotM1 = "btn-secondary";} else{$classTotM1 ="btn-danger"; $signeTotM1="";}
+				$signeTotM2="+"; if ($diffTotM2 > 0){ $classTotM2 = "btn-success";} elseif ($diffTotM2 == 0){$classTotM2 = "btn-secondary";} else{$classTotM2 ="btn-danger"; $signeTotM2="";}
+				$signeTotM6="+"; if ($diffTotM6 > 0){ $classTotM6 = "btn-success";} elseif ($diffTotM6 == 0){$classTotM6 = "btn-secondary";} else{$classTotM6 ="btn-danger"; $signeTotM6="";}
+				$signeTotM12="+"; if ($diffTotM12 > 0){ $classTotM12 = "btn-success";} elseif ($diffTotM12 == 0){$classTotM12 = "btn-secondary";} else{$classTotM12 ="btn-danger"; $signeTotM12="";}
+			?>
+			     <tr>
+				<td class="text-center btn btn-warning btn-sm btn-block">TOTAL</td>
+				<td class="text-center"><?php echo number_format($totalActuel,2,',',' ')." € " ;?></td>
+				<td class="text-center"><?php echo number_format($totalM1,2,',',' ')." € " ;?><div class="btn <?php echo $classTotM1; ?> btn-sm active"><?php echo "(".$signeTotM1.number_format($diffTotM1,2,',',' ').")";?></div></td>
+				<td class="text-center"><?php echo number_format($totalM2,2,',',' ')." € " ;?><div class="btn <?php echo $classTotM2; ?> btn-sm active"><?php echo "(".$signeTotM2.number_format($diffTotM2,2,',',' ').")";?></div></td>
+				<td class="text-center"><?php echo number_format($totalM6,2,',',' ')." € " ;?><div class="btn <?php echo $classTotM6; ?> btn-sm active"><?php echo "(".$signeTotM6.number_format($diffTotM6,2,',',' ').")";?></div></td>
+				<td class="text-center"><?php echo number_format($totalM12,2,',',' ')." € " ;?><div class="btn <?php echo $classTotM12; ?> btn-sm active"><?php echo "(".$signeTotM12.number_format($diffTotM12,2,',',' ').")";?></div></td>
+			     </tr>
                         </tbody>
                     </table>
                 </div>
