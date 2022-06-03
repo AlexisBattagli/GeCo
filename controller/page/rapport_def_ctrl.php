@@ -4,8 +4,8 @@
  * Controlleur pour la page web /view/phtml/rapport_defini.php
  *
  * @author AlexisBattagli
- * @date 18 février 2018
- * @version 0.1
+ * @date 03 mai 2022
+ * @version 0.2
  */
 
 // Afficher les erreurs à l'écran
@@ -154,7 +154,7 @@ class RapportDefCtrl {
 	/*
 	 * Retourne la somme total de sortie d'une liste d'ES
 	 */
-	public function calTotS($entreesSorties = array()){
+	public static function calTotS($entreesSorties = array()){
 		$totS = 0;
 		foreach ($entreesSorties as $es){
 			if($es->isS()){
@@ -167,7 +167,7 @@ class RapportDefCtrl {
 	/*
 	 * Retourne la somme total d'entrée d'une liste d'ES
 	 */
-	public function calTotE($entreesSorties = array()){
+	public static function calTotE($entreesSorties = array()){
 		$totE = 0;
 		foreach ($entreesSorties as $es){
 			if($es->isE()){
