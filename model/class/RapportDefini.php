@@ -46,11 +46,10 @@ class RapportDefini extends Rapport{
    ============================== 
 */ 
 
-    public function RapportDefini($dateDebut = "1994-03-08", $dateFin = "1994-03-08", $flux = array()){
-    	
-    	$this->dateDebut = $dateDebut;
+    public function __construct($dateDebut = "1994-03-08", $dateFin = "1994-03-08", $flux = array()){
+	$this->dateDebut = $dateDebut;
     	$this->dateFin = $dateFin;
-    	parent::Rapport($flux); //les attributs d'un rapport sont calculés avec des méthodes propre à la classe Rapport, à partir uniquement du tableau d'entr&ées et sorties !!
+	parent::__construct($flux); //les attributs d'un rapport sont calculés avec des méthodes propre à la classe Rapport, à partir uniquement du tableau d'entr&ées et sorties !!
     }
 /* 
    ==============================
@@ -62,7 +61,7 @@ class RapportDefini extends Rapport{
      * Récupère la liste des ES du rapport Defini (hors Transfert)
      */
     public function getES(){
-    	return parent::getEntreesSorties();
+	return parent::getEntreesSorties();
     }
     
     

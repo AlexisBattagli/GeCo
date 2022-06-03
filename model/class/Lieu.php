@@ -47,7 +47,7 @@ class Lieu {
     /*
      * Constructeur par défaut de Lieu
      */
-    public function Lieu($id= -1, $pays= "NoWhere", $ville= "NoWhere")
+    public function __construct($id= -1, $pays= "NoWhere", $ville= "NoWhere")
     {
         $this->id = $id;
         $this->pays = $pays;

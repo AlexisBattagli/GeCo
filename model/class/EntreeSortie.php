@@ -118,7 +118,7 @@ class EntreeSortie {
      * Constructeur par défaut d'EntreeSortie
      */
 
-    public function EntreeSortie($id = -1, $valeur = 0, $es = "e", $information = "Aucune information renseignée pour cette ES", $date = "1994-03-08", $lieu = null, $objet = null, $compte = null, $etiquette = null, $sousObjet = null, $payement = null)
+    public function __construct($id = -1, $valeur = 0, $es = "e", $information = "Aucune information renseignée pour cette ES", $date = "1994-03-08", $lieu = null, $objet = null, $compte = null, $etiquette = null, $sousObjet = null, $payement = null)
     {
         $this->id = $id;
         $this->valeur = $valeur;

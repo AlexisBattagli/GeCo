@@ -55,7 +55,7 @@ class Budget {
     /*
      * Constructeur par défaut de Budget
      */
-    public function Budget($id = -1, $objet = null, $valeur = 0.0, $annee = 1994)
+    public function __construct($id = -1, $objet = null, $valeur = 0.0, $annee = 1994)
     {
     	$this->id = $id;
         if (is_null($objet))

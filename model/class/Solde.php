@@ -53,7 +53,7 @@ class Solde {
     /*
      * Constructeur par défaut de Solde
      */
-    public function Solde($id = -1, $compte = null, $valeur = 0, $date = "1994-03-08")
+    public function __construct($id = -1, $compte = null, $valeur = 0, $date = "1994-03-08")
     {
         $this->id = $id;
     	if (is_null($compte))

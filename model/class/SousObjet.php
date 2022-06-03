@@ -57,7 +57,7 @@ class SousObjet {
     /*
      * Constructeur par défaut de SousObjet
      */
-    public function SousObjet($id = -1, $objet = null, $label = "Label Default", $description = "Aucune description pour ce sous-objet")
+    public function __construct($id = -1, $objet = null, $label = "Label Default", $description = "Aucune description pour ce sous-objet")
     {
     	if (is_null($objet))
         {

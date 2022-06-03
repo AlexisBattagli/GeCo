@@ -92,9 +92,8 @@ class Rapport {
     /*
      * Constructeur par défaut
      */
-    public function Rapport($flux = array()){
-    	//echo "[DEBUG] Commence la création de l'objet rapport, à partir du tableau d'entrée sortie.</br>";
-    	
+    public function __construct($flux = array()){
+	//echo "[DEBUG] Commence la création de l'objet rapport, à partir du tableau d'entrée sortie.</br>";
     	$this->entreesSorties = $this->listEntreesSorties($flux); 
     	//echo "[DEBUG] Il y a ".count($this->getEntreesSorties())." es dans ce rapport.</br>";
     	

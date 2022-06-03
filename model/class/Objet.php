@@ -57,7 +57,7 @@ class Objet {
     /*
      * Constructeur par défaut de Objet
      */
-    public function Objet($id= -1, $label= "Label de l'etiquette par défaut.", $description= "Aucune description renseignée pour cette etiquette")
+    public function __construct($id= -1, $label= "Label de l'etiquette par défaut.", $description= "Aucune description renseignée pour cette etiquette")
     {
         $this->id = $id;
         $this->label = $label;

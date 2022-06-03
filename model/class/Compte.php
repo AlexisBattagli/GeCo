@@ -63,7 +63,7 @@ class Compte {
      * Constructeur par défaut de Compte
      */
 
-    public function Compte($id = -1, $label = "Label du Compte par défaut.", $banque = "Ce compte n'est placé dans aucune banque.", $information = "Aucune information renseignée pour ce compte", $identifiant = "0000")
+    public function __construct($id = -1, $label = "Label du Compte par défaut.", $banque = "Ce compte n'est placé dans aucune banque.", $information = "Aucune information renseignée pour ce compte", $identifiant = "0000")
     {
         $this->id = $id;
         $this->label = $label;

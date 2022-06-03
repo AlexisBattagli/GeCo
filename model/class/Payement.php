@@ -43,7 +43,7 @@ class Payement {
      * Constructeur par défaut de Payement
      */
 
-    public function Payement($id = -1, $moyen = "Moyen non définie...")
+    public function __construct($id = -1, $moyen = "Moyen non définie...")
     {
         $this->id = $id;
         $this->moyen = $moyen;
