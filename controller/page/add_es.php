@@ -173,8 +173,8 @@ if($annee<date('Y') || ($mois<=date('m') && $annee==date('Y'))){ //Si l'es est d
 					$oldSolde = SoldeDAL::findOldLast($validDate, $validCompte);
 					echo "[DEBUG] Le solde le plus récent enregistré pour ce compte est de ".$oldSolde->getValeur()."</br>";
 					$newSolde->setCompte($validCompte);
-					$newSolde->setValeur($oldSolde->getValeur());
-					echo "[DEBUG] Création d'un solde pour le compte ".$validCompte.", à la date du ".$mois."/".$annee.".</br>";
+					$newSolde->setValeur($oldSolde->getValeur() + $validValeur);
+					echo "[DEBUG] Création d'un solde de ".$newSolde->getValeur()."pour le compte ".$validCompte.", à la date du ".$mois."/".$annee.".</br>";
 					$idNewSolde = SoldeDAL::insertOnDuplicate($newSolde);
 					$solde = SoldeDAL::findById($idNewSolde);
 					$solde->setDate($validDate);
